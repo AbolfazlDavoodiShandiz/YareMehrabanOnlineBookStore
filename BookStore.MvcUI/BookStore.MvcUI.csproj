@@ -6,4 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\siteTemplate\**" />
+    <Content Remove="wwwroot\siteTemplate\**" />
+    <EmbeddedResource Remove="wwwroot\siteTemplate\**" />
+    <None Remove="wwwroot\siteTemplate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\admin-template\" />
+  </ItemGroup>
+
 </Project>
