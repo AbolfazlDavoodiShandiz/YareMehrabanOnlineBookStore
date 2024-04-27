@@ -15,6 +15,6 @@ namespace BookStore.Data
 
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
     }
 }
