@@ -1,7 +1,20 @@
+using BookStore.Common.Secrets;
+using BookStore.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ApplicationSecrets>(c => builder.Configuration.GetSection(nameof(ApplicationSecrets)).Bind(c));
+
+string connectionString = builder.Configuration.GetSection("ApplicationSecrets:ConnectionStrings:ApplicationConnectionString").Value;
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 
