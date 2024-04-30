@@ -56,7 +56,7 @@ namespace BookStore.Services.Implementations
             {
                 var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
 
-                if (category != null)
+                if (category is not null)
                 {
                     _context.Categories.Remove(category);
                     await _context.SaveChangesAsync();
@@ -91,9 +91,10 @@ namespace BookStore.Services.Implementations
             {
                 var dbCategory = await _context.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
 
-                if (dbCategory != null)
+                if (dbCategory is not null)
                 {
                     dbCategory.Name = category.Name;
+                    dbCategory.ParentId = category.ParentId;
                     await _context.SaveChangesAsync();
 
                     return true;
@@ -129,7 +130,7 @@ namespace BookStore.Services.Implementations
             {
                 var categories = await _context.Categories.ToListAsync();
 
-                return categories;
+                return categories.OrderBy(c => c.Name).ToList();
             }
             catch (Exception ex)
             {

@@ -1,0 +1,64 @@
+﻿@model UpdateCategoryViewModel
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                @if (Model.ProductActionType == ProductActionType.Create)
+                {
+                    <h3 class="content-header">ثبت دسته بندی جدید</h3>
+                }
+                else if (Model.ProductActionType == ProductActionType.Update)
+                {
+                    <h3 class="content-header">ویرایش دسته بندی</h3>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                            
+                        </div>
+                        <div class="text-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form" asp-area="Admin" asp-controller="Category" asp-action="Update" method="post">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">نام دسته بندی</label>
+                                                <input type="text" class="form-control" id="Name" name="Name" asp-for="Name">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12">
+                                            <fieldset class="form-group">
+                                                <label for="customSelect">دسته بندی والد</label>
+                                                <select class="custom-select d-block w-100" id="ParentId" name="ParentId" asp-for="ParentId"
+                                                        asp-items="@(ViewBag.CategoryList)">
+                                                    <option value="0">این منوی انتخاب را باز کنید</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn mr-1 btn-success col-12">ذخیره</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
