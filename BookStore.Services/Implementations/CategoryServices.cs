@@ -1,6 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Entities.Product;
 using BookStore.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,13 @@ namespace BookStore.Services.Implementations
             await _context.SaveChangesAsync();
 
             return category;
+        }
+
+        public async Task<List<Category>> GetAll()
+        {
+            var categories = await _context.Categories.ToListAsync();
+
+            return categories;
         }
     }
 }

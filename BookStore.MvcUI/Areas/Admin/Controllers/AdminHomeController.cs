@@ -2,8 +2,7 @@
 
 namespace BookStore.MvcUI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class AdminHomeController : Controller
+    public class AdminHomeController : BaseMvcController
     {
         public IActionResult Index()
         {

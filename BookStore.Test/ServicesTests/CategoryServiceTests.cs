@@ -4,6 +4,7 @@ using BookStore.Test.MockData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,13 +51,27 @@ namespace BookStore.Test.ServicesTests
 
             Category category = new Category()
             {
-                Id=1,
+                Id = 1,
                 Name = "Computer Science"
             };
 
             var result = await categoryService.Add(category);
 
             Assert.True(result.Id > 0);
+        }
+
+        [Fact]
+        [Trait("Services", "Category")]
+        public async Task GetAll_Should_Return_List_Of_Type_Category()
+        {
+            var mockDbContext = new ApplicationMockDbContext().GenerateMockDbContext();
+
+            var categoryService = new CategoryServices(mockDbContext.Object);
+
+            var result = await categoryService.GetAll();
+
+            Assert.NotNull(result);
+            Assert.IsType<List<Category>>(result);
         }
     }
 }

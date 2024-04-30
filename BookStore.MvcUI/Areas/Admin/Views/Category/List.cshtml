@@ -1,0 +1,63 @@
+﻿@model List<CategoryViewModel>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h3 class="content-header">دسته بندی ها</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                            <a asp-area="Admin" asp-controller="Category" asp-action="Add" class="btn btn-primary">افزودن دسته بندی جدید</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نام دسته بندی</th>
+                                        <th>دسته بندی والد</th>
+                                        <th>اقدامات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int index = 0; index < Model.Count; index++)
+                                    {
+                                        int row = index + 1;
+
+                                        <tr>
+                                            <td>@row</td>
+                                            <td>@Model[index].Name</td>
+                                            @if (Model[index].ParentId is not null)
+                                            {
+                                                <td>@Model[index].Parent.Name</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                            <td>
+                                                <a class="success p-0" data-original-title="" title="" asp-area="Admin" asp-controller="Category" asp-action="Edit">
+                                                    <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="danger p-0" data-original-title="" title="" asp-area="Admin" asp-controller="Category" asp-action="Delete">
+                                                    <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
