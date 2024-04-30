@@ -1,4 +1,5 @@
-﻿using BookStore.Data;
+﻿using BookStore.Common.Exceptions;
+using BookStore.Data;
 using BookStore.Entities.Product;
 using BookStore.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -31,17 +32,109 @@ namespace BookStore.Services.Implementations
                 throw new InvalidOperationException("Category name can not be null.");
             }
 
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
 
-            return category;
+                return category;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
+        }
+
+        public async Task<bool> Delete(int Id)
+        {
+            if (Id <= 0)
+            {
+                throw new InvalidOperationException("Category Id is not valid.");
+            }
+
+            try
+            {
+                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+
+                if (category != null)
+                {
+                    _context.Categories.Remove(category);
+                    await _context.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationDatabaseOperationException(ex);
+            }
+        }
+
+        public async Task<bool> Edit(Category category)
+        {
+            if (category.Id <= 0)
+            {
+                throw new InvalidOperationException("Category Id is not valid.");
+            }
+
+            if (string.IsNullOrWhiteSpace(category.Name))
+            {
+                throw new InvalidOperationException("Category name can not be null.");
+            }
+
+            try
+            {
+                var dbCategory = await _context.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
+
+                if (dbCategory != null)
+                {
+                    dbCategory.Name = category.Name;
+                    await _context.SaveChangesAsync();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
+        }
+
+        public async Task<Category> Get(int Id)
+        {
+            try
+            {
+                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+
+                return category;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
         }
 
         public async Task<List<Category>> GetAll()
         {
-            var categories = await _context.Categories.ToListAsync();
+            try
+            {
+                var categories = await _context.Categories.ToListAsync();
 
-            return categories;
+                return categories;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
         }
     }
 }
