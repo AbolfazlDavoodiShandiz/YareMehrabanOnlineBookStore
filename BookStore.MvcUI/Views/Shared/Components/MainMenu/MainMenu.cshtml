@@ -1,0 +1,42 @@
+﻿@using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Product
+
+@model List<CategoryViewModel>
+
+@foreach (var menuLevel_1 in Model.Where(c => c.ParentId == null))
+{
+    <li id="nav-menu-item" class="menu-item nav-overlay">
+        <a href="#" class="current-link-menu">
+            @menuLevel_1.Name
+            <i class="fa fa-angle-down"></i>
+        </a>
+        @if (Model.Any(c => c.ParentId == menuLevel_1.Id))
+        {
+            <ul class="sub-menu is-mega-menu mega-menu-level-two">
+                @foreach (var menuLevel_2 in Model.Where(c => c.ParentId == menuLevel_1.Id))
+                {
+                    <li class="menu-mega-item menu-item-type-mega-menu">
+                        <a href="#" class="mega-menu-link">
+                            @menuLevel_2.Name
+                        </a>
+                        @if (Model.Any(c => c.ParentId == menuLevel_2.Id))
+                        {
+                            <ul class="sub-menu mega-menu-level-three">
+                                @foreach (var menuLevel_3 in Model.Where(c => c.ParentId == menuLevel_2.Id))
+                                {
+                                    <li class="menu-mega-item-three">
+                                        <a href="#">
+                                            @menuLevel_3.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                    @*                    <li class="bg-image">
+        <img src="~/site-template/assets/images/menu-main/digital.png" alt="">
+        </li> *@
+                }
+            </ul>
+        }
+    </li>
+}
