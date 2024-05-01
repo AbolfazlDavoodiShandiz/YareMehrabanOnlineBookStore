@@ -103,7 +103,6 @@
     <None Include="wwwroot\admin-template\app-assets\vendors\js\prism.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\quill.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\screenfull.min.js" />
-    <None Include="wwwroot\admin-template\app-assets\vendors\js\sweetalert2.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\switchery.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\tagging.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\toastr.min.js" />

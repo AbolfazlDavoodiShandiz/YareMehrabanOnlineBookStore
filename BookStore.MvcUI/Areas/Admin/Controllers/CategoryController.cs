@@ -156,5 +156,13 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
             return RedirectToAction("List", "Category", new { area = "Admin" });
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var result = await _categoryServices.Delete(Id);
+
+            return Json(result);
+        }
     }
 }
