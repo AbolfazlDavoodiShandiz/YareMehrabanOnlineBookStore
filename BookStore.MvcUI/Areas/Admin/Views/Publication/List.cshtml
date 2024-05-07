@@ -1,0 +1,107 @@
+﻿@model List<PublicationViewModel>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h3 class="content-header">انتشارات</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                        </div>
+                        <div>
+                            <a asp-area="Admin" asp-controller="Publication" asp-action="Update" asp-route-productActionType="Create" class="btn btn-primary">افزودن انتشارات جدید</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نام انتشارات</th>
+                                        <th>آدرس</th>
+                                        <th>سایت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int index = 0; index < Model.Count; index++)
+                                    {
+                                        int row = index + 1;
+
+                                        <tr>
+                                            <td>@row</td>
+                                            <td>@Model[index].Name</td>
+                                            <td>@Model[index].Address</td>
+                                            <td><a href="@Model[index].WebSiteUrl" target="_blank">@Model[index].Name</a></td>
+                                            <td>
+                                                <a class="success p-0" data-original-title="" title="" asp-area="Admin" asp-controller="Publication" asp-action="Update"
+                                                   asp-route-productActionType="Update" asp-route-Id="@Model[index].Id">
+                                                    <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="danger p-0" data-original-title="" title="" onclick="DeletePublication(@Model[index].Id,'@Model[index].Name')">
+                                                    <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function DeletePublication(id, name) {
+
+            const confirmMessage = `انتشارات ${name} حذف شود؟`;
+            const successMessage = `انتشارات ${name} با موفقیت حذف شد.`;
+
+            swal.fire({
+                title: confirmMessage,
+                text: 'با حذف انتشارات تمام کتاب های این منتشر کننده فاقد انتشارات خواهند بود.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.value) {
+
+                    $.ajax({
+                        url: `DELETE/${id}`,
+                        type: 'DELETE',
+                        success: function (data) {
+                            if (data == true) {
+                                swal.fire(successMessage, '', 'success').then(function (isConfirm) {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                swal.fire('حذف انتشارات با خطا مواجه شد.', '', 'error');
+                            }
+                        }, error: function (request, status, error) {
+                            const err = {
+                                'request': request,
+                                'status': status,
+                                'error': error
+                            }
+
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

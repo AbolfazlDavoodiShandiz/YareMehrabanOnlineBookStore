@@ -11,34 +11,34 @@ using System.Threading.Tasks;
 
 namespace BookStore.Services.Implementations
 {
-    public class CategoryServices : ICategoryServices
+    public class PublicationServices : IPublicationServices
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoryServices(ApplicationDbContext context)
+        public PublicationServices(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Category> Add(Category category)
+        public async Task<Publication> Add(Publication Publisher)
         {
-            if (category is null)
+            if (Publisher is null)
             {
-                throw new ArgumentNullException("Category");
+                throw new ArgumentNullException("Publisher");
             }
 
-            if (string.IsNullOrWhiteSpace(category.Name))
+            if (string.IsNullOrWhiteSpace(Publisher.Name))
             {
-                throw new InvalidOperationException("Category name can not be null.");
+                throw new InvalidOperationException("Publisher name can not be null.");
             }
 
             try
             {
-                _context.Categories.Add(category);
+                _context.Publications.Add(Publisher);
 
                 await _context.SaveChangesAsync();
 
-                return category;
+                return Publisher;
             }
             catch (Exception ex)
             {
@@ -50,16 +50,16 @@ namespace BookStore.Services.Implementations
         {
             if (Id <= 0)
             {
-                throw new InvalidOperationException("Category Id is not valid.");
+                throw new InvalidOperationException("Publisher Id is not valid.");
             }
 
             try
             {
-                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var Publisher = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync();
 
-                if (category is not null)
+                if (Publisher is not null)
                 {
-                    _context.Categories.Remove(category);
+                    _context.Publications.Remove(Publisher);
 
                     await _context.SaveChangesAsync();
 
@@ -77,26 +77,27 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Edit(Category category)
+        public async Task<bool> Edit(Publication Publisher)
         {
-            if (category.Id <= 0)
+            if (Publisher.Id <= 0)
             {
-                throw new InvalidOperationException("Category Id is not valid.");
+                throw new InvalidOperationException("Publisher Id is not valid.");
             }
 
-            if (string.IsNullOrWhiteSpace(category.Name))
+            if (string.IsNullOrWhiteSpace(Publisher.Name))
             {
-                throw new InvalidOperationException("Category name can not be null.");
+                throw new InvalidOperationException("Publisher name can not be null.");
             }
 
             try
             {
-                var dbCategory = await _context.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
+                var dbPublisher = await _context.Publications.Where(c => c.Id == Publisher.Id).FirstOrDefaultAsync();
 
-                if (dbCategory is not null)
+                if (dbPublisher is not null)
                 {
-                    dbCategory.Name = category.Name;
-                    dbCategory.ParentId = category.ParentId;
+                    dbPublisher.Name = Publisher.Name;
+                    dbPublisher.Address = Publisher.Address;
+                    dbPublisher.WebSiteUrl = Publisher.WebSiteUrl;
 
                     await _context.SaveChangesAsync();
 
@@ -113,13 +114,13 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<Category> Get(int Id)
+        public async Task<Publication> Get(int Id)
         {
             try
             {
-                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var Publisher = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync();
 
-                return category;
+                return Publisher;
             }
             catch (Exception ex)
             {
@@ -127,13 +128,13 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<List<Category>> GetAll()
+        public async Task<List<Publication>> GetAll()
         {
             try
             {
-                var categories = await _context.Categories.ToListAsync();
+                var Publishers = await _context.Publications.ToListAsync();
 
-                return categories.OrderBy(c => c.Name).ToList();
+                return Publishers.OrderBy(c => c.Name).ToList();
             }
             catch (Exception ex)
             {

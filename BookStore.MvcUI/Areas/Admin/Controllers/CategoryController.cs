@@ -1,6 +1,6 @@
 ﻿using BookStore.Common.Enums;
 using BookStore.Entities.Product;
-using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Product;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

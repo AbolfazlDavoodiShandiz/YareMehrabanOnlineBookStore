@@ -5,28 +5,49 @@
 namespace BookStore.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBookAndPublisher : Migration
+    public partial class Category_Publication_Book : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Publisher",
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Categories",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Publications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WebSiteUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    WebSiteUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Publisher", x => x.Id);
+                    table.PrimaryKey("PK_Publications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Book",
+                name: "Books",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -41,15 +62,17 @@ namespace BookStore.Data.Migrations
                     Pages = table.Column<int>(type: "int", nullable: false),
                     Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoverType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PublisherId = table.Column<int>(type: "int", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    PublicationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book", x => x.Id);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Book_Publisher_PublisherId",
-                        column: x => x.PublisherId,
-                        principalTable: "Publisher",
+                        name: "FK_Books_Publications_PublicationId",
+                        column: x => x.PublicationId,
+                        principalTable: "Publications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -65,9 +88,9 @@ namespace BookStore.Data.Migrations
                 {
                     table.PrimaryKey("PK_BookCategory", x => new { x.BooksId, x.CategoriesId });
                     table.ForeignKey(
-                        name: "FK_BookCategory_Book_BooksId",
+                        name: "FK_BookCategory_Books_BooksId",
                         column: x => x.BooksId,
-                        principalTable: "Book",
+                        principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -79,14 +102,19 @@ namespace BookStore.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Book_PublisherId",
-                table: "Book",
-                column: "PublisherId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BookCategory_CategoriesId",
                 table: "BookCategory",
                 column: "CategoriesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_PublicationId",
+                table: "Books",
+                column: "PublicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentId",
+                table: "Categories",
+                column: "ParentId");
         }
 
         /// <inheritdoc />
@@ -96,10 +124,13 @@ namespace BookStore.Data.Migrations
                 name: "BookCategory");
 
             migrationBuilder.DropTable(
-                name: "Book");
+                name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Publisher");
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Publications");
         }
     }
 }

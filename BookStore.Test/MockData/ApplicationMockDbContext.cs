@@ -17,11 +17,13 @@ namespace BookStore.Test.MockData
             ApplicationMockData applicationMockData = new ApplicationMockData();
 
             var categories = applicationMockData.GenerateMockCategories();
+            var publications = applicationMockData.GenerateMockPublications();
 
             var dbContextOptions = new DbContextOptionsBuilder();
             var dbContext = new Mock<ApplicationDbContext>(dbContextOptions.Options);
 
             dbContext.Setup(c => c.Categories).ReturnsDbSet(categories);
+            dbContext.Setup(c => c.Publications).ReturnsDbSet(publications);
 
             return dbContext;
         }

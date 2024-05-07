@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240503144932_AddBookAndPublisher")]
-    partial class AddBookAndPublisher
+    [Migration("20240507154338_Category_Publication_Book")]
+    partial class Category_Publication_Book
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,16 +60,22 @@ namespace BookStore.Data.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Pages")
                         .HasColumnType("int");
 
                     b.Property<int>("PrintNo")
                         .HasColumnType("int");
 
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PublishDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PublisherId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<string>("Size")
@@ -83,9 +89,9 @@ namespace BookStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublisherId");
+                    b.HasIndex("PublicationId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BookStore.Entities.Product.Category", b =>
@@ -95,6 +101,9 @@ namespace BookStore.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -109,7 +118,7 @@ namespace BookStore.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BookStore.Entities.Product.Publisher", b =>
+            modelBuilder.Entity("BookStore.Entities.Product.Publication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,6 +129,9 @@ namespace BookStore.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -128,7 +140,7 @@ namespace BookStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publisher");
+                    b.ToTable("Publications");
                 });
 
             modelBuilder.Entity("BookCategory", b =>
@@ -148,13 +160,13 @@ namespace BookStore.Data.Migrations
 
             modelBuilder.Entity("BookStore.Entities.Product.Book", b =>
                 {
-                    b.HasOne("BookStore.Entities.Product.Publisher", "Publisher")
+                    b.HasOne("BookStore.Entities.Product.Publication", "Publication")
                         .WithMany("Books")
-                        .HasForeignKey("PublisherId")
+                        .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Publisher");
+                    b.Navigation("Publication");
                 });
 
             modelBuilder.Entity("BookStore.Entities.Product.Category", b =>
@@ -166,7 +178,7 @@ namespace BookStore.Data.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("BookStore.Entities.Product.Publisher", b =>
+            modelBuilder.Entity("BookStore.Entities.Product.Publication", b =>
                 {
                     b.Navigation("Books");
                 });

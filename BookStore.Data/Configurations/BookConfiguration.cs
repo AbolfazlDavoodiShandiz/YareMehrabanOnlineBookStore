@@ -13,7 +13,7 @@ namespace BookStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            
+            builder.HasQueryFilter(b => b.IsDeleted == false);
         }
     }
 }

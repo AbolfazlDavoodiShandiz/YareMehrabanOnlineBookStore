@@ -1,7 +1,7 @@
 ﻿using BookStore.Common.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Product
+namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category
 {
     public class UpdateCategoryViewModel
     {

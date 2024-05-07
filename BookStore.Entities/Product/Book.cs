@@ -20,10 +20,12 @@ namespace BookStore.Entities.Product
         public int Pages { get; set; }
         public string Size { get; set; }
         public string CoverType { get; set; }
+        public bool IsDeleted { get; set; }
+        public int Quantity { get; set; }
 
         public ICollection<Category> Categories { get; set; }
 
-        public int PublisherId { get; set; }
-        public Publisher Publisher { get; set; }
+        public int PublicationId { get; set; }
+        public Publication Publication { get; set; }
     }
 }

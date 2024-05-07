@@ -1,0 +1,70 @@
+﻿@model UpdatePublicationViewModel
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                @if (Model.ProductActionType == ProductActionType.Create)
+                {
+                    <h3 class="content-header">ثبت انتشارات جدید</h3>
+                }
+                else if (Model.ProductActionType == ProductActionType.Update)
+                {
+                    <h3 class="content-header">ویرایش انتشارات</h3>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                        </div>
+                        <div class="text-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form" asp-area="Admin" asp-controller="Publication" asp-action="Update" method="post">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">نام انتشارات</label>
+                                                <input type="text" class="form-control" id="Name" name="Name" asp-for="Name">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">آدرس</label>
+                                                <input type="text" class="form-control" id="Address" name="Address" asp-for="Address">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">سایت</label>
+                                                <input type="text" class="form-control" id="WebSiteUrl" name="WebSiteUrl" asp-for="WebSiteUrl">
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn mr-1 btn-success col-12">ذخیره</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

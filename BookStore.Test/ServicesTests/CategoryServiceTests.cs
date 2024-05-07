@@ -190,6 +190,7 @@ namespace BookStore.Test.ServicesTests
             Assert.Equal("Category Id is not valid.", exception.Message);
         }
 
+        [Fact]
         [Trait("Services", "Category")]
         public async Task Delete_Return_False_If_Category_Not_Found()
         {
