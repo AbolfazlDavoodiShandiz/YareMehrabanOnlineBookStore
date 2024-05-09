@@ -18,8 +18,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<IPublicationServices, PublicationServices>();
+builder.Services.AddScoped<IBookServices, BookServices>();
 
 var app = builder.Build();
 

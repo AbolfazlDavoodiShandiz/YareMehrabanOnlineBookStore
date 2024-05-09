@@ -1,4 +1,5 @@
-﻿using BookStore.Common.Enums;
+﻿using AutoMapper;
+using BookStore.Common.Enums;
 using BookStore.Entities.Product;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
 using BookStore.Services.Implementations;
@@ -11,59 +12,34 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
     public class PublicationController : BaseMvcController
     {
         private readonly IPublicationServices _publicationServices;
+        private readonly IMapper _mapper;
 
-        public PublicationController(IPublicationServices publicationServices)
+        public PublicationController(IPublicationServices publicationServices, IMapper mapper)
         {
             _publicationServices = publicationServices;
-        }
-
-        [NonAction]
-        private async Task<List<PublicationViewModel>> GeneratePublicationViewModelList()
-        {
-            var publications = await _publicationServices.GetAll();
-
-            List<PublicationViewModel> list = new List<PublicationViewModel>();
-
-            foreach (var publication in publications)
-            {
-                var publicationViewModel = new PublicationViewModel()
-                {
-                    Id = publication.Id,
-                    Name = publication.Name,
-                    Address = publication.Address,
-                    WebSiteUrl = publication.WebSiteUrl
-                };
-
-                list.Add(publicationViewModel);
-            }
-
-            return list;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<PublicationViewModel>>> List()
         {
-            var list = await GeneratePublicationViewModelList();
+            var publications = await _publicationServices.GetAll();
+            var publicationsViewModel = _mapper.Map<List<PublicationViewModel>>(publications);
 
-            return View(list);
+            return View(publicationsViewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null)
         {
-            UpdatePublicationViewModel updatePublicationViewModel = new UpdatePublicationViewModel();
-
-            updatePublicationViewModel.ProductActionType = productActionType;
-
             if (productActionType == ProductActionType.Create && Id.HasValue)
             {
                 productActionType = ProductActionType.Update;
-                updatePublicationViewModel.ProductActionType = ProductActionType.Update;
             }
 
             if (productActionType == ProductActionType.Create)
             {
-                return View(updatePublicationViewModel);
+                return View(new UpdatePublicationViewModel() { ProductActionType = productActionType });
             }
             else if (productActionType == ProductActionType.Update)
             {
@@ -74,13 +50,15 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                     return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
                 }
 
-                updatePublicationViewModel.Id = publication.Id;
-                updatePublicationViewModel.Name = publication.Name;
-                updatePublicationViewModel.Address = publication.Address;
-                updatePublicationViewModel.WebSiteUrl = publication.WebSiteUrl;
-            }
+                var updatePublicationViewModel = _mapper.Map<UpdatePublicationViewModel>(publication);
+                updatePublicationViewModel.ProductActionType = productActionType;
 
-            return View(updatePublicationViewModel);
+                return View(updatePublicationViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
+            }
         }
 
         [HttpPost]
@@ -93,12 +71,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
             if (updatePublicationViewModel.ProductActionType == ProductActionType.Create)
             {
-                var publication = await _publicationServices.Add(new Publication
-                {
-                    Name = updatePublicationViewModel.Name,
-                    Address = updatePublicationViewModel.Address,
-                    WebSiteUrl = updatePublicationViewModel.WebSiteUrl
-                });
+                var newPublication = _mapper.Map<Publication>(updatePublicationViewModel);
+
+                var publication = await _publicationServices.Add(newPublication);
 
                 if (publication.Id > 0)
                 {
@@ -113,13 +88,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             }
             else if (updatePublicationViewModel.ProductActionType == ProductActionType.Update)
             {
-                var publication = new Publication()
-                {
-                    Id = updatePublicationViewModel.Id,
-                    Name = updatePublicationViewModel.Name,
-                    Address = updatePublicationViewModel.Address,
-                    WebSiteUrl = updatePublicationViewModel.WebSiteUrl
-                };
+                var publication = _mapper.Map<Publication>(updatePublicationViewModel);
 
                 bool result = await _publicationServices.Edit(publication);
 

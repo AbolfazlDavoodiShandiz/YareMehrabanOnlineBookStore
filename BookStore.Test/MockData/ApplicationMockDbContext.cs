@@ -18,12 +18,14 @@ namespace BookStore.Test.MockData
 
             var categories = applicationMockData.GenerateMockCategories();
             var publications = applicationMockData.GenerateMockPublications();
+            var books = applicationMockData.GenerateMockBooks();
 
             var dbContextOptions = new DbContextOptionsBuilder();
             var dbContext = new Mock<ApplicationDbContext>(dbContextOptions.Options);
 
             dbContext.Setup(c => c.Categories).ReturnsDbSet(categories);
             dbContext.Setup(c => c.Publications).ReturnsDbSet(publications);
+            dbContext.Setup(c => c.Books).ReturnsDbSet(books);
 
             return dbContext;
         }

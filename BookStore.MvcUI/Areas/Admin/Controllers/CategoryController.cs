@@ -1,4 +1,5 @@
-﻿using BookStore.Common.Enums;
+﻿using AutoMapper;
+using BookStore.Common.Enums;
 using BookStore.Entities.Product;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.Services.Interfaces;
@@ -10,71 +11,39 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
     public class CategoryController : BaseMvcController
     {
         private readonly ICategoryServices _categoryServices;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryServices categoryServices)
+        public CategoryController(ICategoryServices categoryServices, IMapper mapper)
         {
             _categoryServices = categoryServices;
-        }
-
-        [NonAction]
-        private async Task<List<CategoryViewModel>> GenerateCategoryViewModelList()
-        {
-            var categories = await _categoryServices.GetAll();
-
-            List<CategoryViewModel> list = new List<CategoryViewModel>();
-
-            foreach (var category in categories)
-            {
-                var categoryViewModel = new CategoryViewModel()
-                {
-                    Id = category.Id,
-                    Name = category.Name,
-                    ParentId = category.ParentId
-                };
-
-                if (category.ParentId is not null)
-                {
-                    categoryViewModel.Parent = new CategoryViewModel()
-                    {
-                        Id = category.Parent.Id,
-                        Name = category.Parent.Name
-                    };
-                }
-
-                list.Add(categoryViewModel);
-            }
-
-            return list;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<CategoryViewModel>>> List()
         {
-            var list = await GenerateCategoryViewModelList();
+            var categories = await _categoryServices.GetAll();
+            var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
-            return View(list);
+            return View(categoriesViewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null)
         {
-            var list = await GenerateCategoryViewModelList();
+            var categories = await _categoryServices.GetAll();
+            var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
-            ViewBag.CategoryList = new SelectList(list, "Id", "Name");
-
-            UpdateCategoryViewModel updateCategoryViewModel = new UpdateCategoryViewModel();
-
-            updateCategoryViewModel.ProductActionType = productActionType;
+            ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
 
             if (productActionType == ProductActionType.Create && Id.HasValue)
             {
                 productActionType = ProductActionType.Update;
-                updateCategoryViewModel.ProductActionType = ProductActionType.Update;
             }
 
             if (productActionType == ProductActionType.Create)
             {
-                return View(updateCategoryViewModel);
+                return View(new UpdateCategoryViewModel() { ProductActionType = productActionType });
             }
             else if (productActionType == ProductActionType.Update)
             {
@@ -85,20 +54,24 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                     return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
                 }
 
-                updateCategoryViewModel.Id = category.Id;
-                updateCategoryViewModel.Name = category.Name;
-                updateCategoryViewModel.ParentId = category.ParentId;
-            }
+                var updateCategoryViewModel = _mapper.Map<UpdateCategoryViewModel>(category);
+                updateCategoryViewModel.ProductActionType = productActionType;
 
-            return View(updateCategoryViewModel);
+                return View(updateCategoryViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCategoryViewModel updateCategoryViewModel)
         {
-            var list = await GenerateCategoryViewModelList();
+            var categories = await _categoryServices.GetAll();
+            var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
-            ViewBag.CategoryList = new SelectList(list, "Id", "Name");
+            ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
 
             if (!ModelState.IsValid)
             {
@@ -107,11 +80,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
             if (updateCategoryViewModel.ProductActionType == ProductActionType.Create)
             {
-                var category = await _categoryServices.Add(new Category
-                {
-                    Name = updateCategoryViewModel.Name,
-                    ParentId = updateCategoryViewModel.ParentId == 0 ? null : updateCategoryViewModel.ParentId
-                });
+                var newCategory = _mapper.Map<Category>(updateCategoryViewModel);
+
+                var category = await _categoryServices.Add(newCategory);
 
                 if (category.Id > 0)
                 {
@@ -133,14 +104,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                     return View(updateCategoryViewModel);
                 }
 
-                var category = new Category()
-                {
-                    Id = updateCategoryViewModel.Id,
-                    Name = updateCategoryViewModel.Name,
-                    ParentId = updateCategoryViewModel.ParentId == 0 ? null : updateCategoryViewModel.ParentId
-                };
+                var updateCategory = _mapper.Map<Category>(updateCategoryViewModel);
 
-                bool result = await _categoryServices.Edit(category);
+                bool result = await _categoryServices.Edit(updateCategory);
 
                 if (result)
                 {

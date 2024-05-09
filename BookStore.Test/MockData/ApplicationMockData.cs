@@ -31,5 +31,45 @@ namespace BookStore.Test.MockData
                 new Publication{Id=4,Name="O'Reilly",Address="USA",WebSiteUrl= "https://www.oreilly.com/"}
             };
         }
+
+        internal List<Book> GenerateMockBooks()
+        {
+            return new List<Book>()
+            {
+                new Book()
+                {
+                    Id = 1,
+                    Title = "Name",
+                    ISBN = "1234",
+                    Author = string.Empty,
+                    Translator = null,
+                    Edition = 5,
+                    PublishDate = "May1994",
+                    PrintNo = 12,
+                    Pages = 642,
+                    Size = "A5",
+                    CoverType = "HardCover",
+                    IsDeleted = false,
+                    Quantity = 100
+                },
+                new Book()
+                {
+                    Id = 2,
+                    Title = "Name",
+                    ISBN = "1234",
+                    Author = string.Empty,
+                    Translator = null,
+                    Edition = 5,
+                    PublishDate = "May1994",
+                    PrintNo = 12,
+                    Pages = 642,
+                    Size = "A5",
+                    CoverType = "HardCover",
+                    IsDeleted = false,
+                    Quantity = 100
+                }
+            };
+        }
+
     }
 }
