@@ -21,16 +21,16 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PublicationViewModel>>> List()
+        public async Task<ActionResult<List<PublicationViewModel>>> List(CancellationToken cancellationToken)
         {
-            var publications = await _publicationServices.GetAll();
+            var publications = await _publicationServices.GetAll(cancellationToken);
             var publicationsViewModel = _mapper.Map<List<PublicationViewModel>>(publications);
 
             return View(publicationsViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null)
+        public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
         {
             if (productActionType == ProductActionType.Create && Id.HasValue)
             {
@@ -43,7 +43,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             }
             else if (productActionType == ProductActionType.Update)
             {
-                var publication = await _publicationServices.Get(Id.GetValueOrDefault());
+                var publication = await _publicationServices.Get(Id.GetValueOrDefault(), cancellationToken);
 
                 if (publication is null)
                 {
@@ -62,7 +62,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdatePublicationViewModel updatePublicationViewModel)
+        public async Task<IActionResult> Update(UpdatePublicationViewModel updatePublicationViewModel, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             {
                 var newPublication = _mapper.Map<Publication>(updatePublicationViewModel);
 
-                var publication = await _publicationServices.Add(newPublication);
+                var publication = await _publicationServices.Add(newPublication, cancellationToken);
 
                 if (publication.Id > 0)
                 {
@@ -90,7 +90,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             {
                 var publication = _mapper.Map<Publication>(updatePublicationViewModel);
 
-                bool result = await _publicationServices.Edit(publication);
+                bool result = await _publicationServices.Edit(publication, cancellationToken);
 
                 if (result)
                 {
@@ -108,9 +108,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int Id, CancellationToken cancellationToken)
         {
-            var result = await _publicationServices.Delete(Id);
+            var result = await _publicationServices.Delete(Id, cancellationToken);
 
             return Json(result);
         }

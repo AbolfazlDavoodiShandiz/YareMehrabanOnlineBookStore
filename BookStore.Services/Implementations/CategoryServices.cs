@@ -20,7 +20,7 @@ namespace BookStore.Services.Implementations
             _context = context;
         }
 
-        public async Task<Category> Add(Category category)
+        public async Task<Category> Add(Category category, CancellationToken cancellationToken)
         {
             if (category is null)
             {
@@ -36,7 +36,7 @@ namespace BookStore.Services.Implementations
             {
                 _context.Categories.Add(category);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return category;
             }
@@ -46,7 +46,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellationToken)
         {
             if (Id <= 0)
             {
@@ -55,13 +55,13 @@ namespace BookStore.Services.Implementations
 
             try
             {
-                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync(cancellationToken);
 
                 if (category is not null)
                 {
-                    _context.Categories.Remove(category);
+                    category.IsDeleted = true;
 
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
 
                     return true;
                 }
@@ -77,7 +77,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Edit(Category category)
+        public async Task<bool> Edit(Category category, CancellationToken cancellationToken)
         {
             if (category.Id <= 0)
             {
@@ -91,14 +91,14 @@ namespace BookStore.Services.Implementations
 
             try
             {
-                var dbCategory = await _context.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync();
+                var dbCategory = await _context.Categories.Where(c => c.Id == category.Id).FirstOrDefaultAsync(cancellationToken);
 
                 if (dbCategory is not null)
                 {
                     dbCategory.Name = category.Name;
                     dbCategory.ParentId = category.ParentId;
 
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
 
                     return true;
                 }
@@ -113,11 +113,11 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<Category> Get(int Id)
+        public async Task<Category> Get(int Id, CancellationToken cancellationToken)
         {
             try
             {
-                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var category = await _context.Categories.Where(c => c.Id == Id).FirstOrDefaultAsync(cancellationToken);
 
                 return category;
             }
@@ -127,11 +127,11 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<List<Category>> GetAll()
+        public async Task<List<Category>> GetAll(CancellationToken cancellationToken)
         {
             try
             {
-                var categories = await _context.Categories.ToListAsync();
+                var categories = await _context.Categories.ToListAsync(cancellationToken);
 
                 return categories.OrderBy(c => c.Name).ToList();
             }

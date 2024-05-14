@@ -20,25 +20,25 @@ namespace BookStore.Services.Implementations
             _context = context;
         }
 
-        public async Task<Publication> Add(Publication Publisher)
+        public async Task<Publication> Add(Publication publication, CancellationToken cancellationToken)
         {
-            if (Publisher is null)
+            if (publication is null)
             {
-                throw new ArgumentNullException("Publisher");
+                throw new ArgumentNullException("Publication");
             }
 
-            if (string.IsNullOrWhiteSpace(Publisher.Name))
+            if (string.IsNullOrWhiteSpace(publication.Name))
             {
-                throw new InvalidOperationException("Publisher name can not be null.");
+                throw new InvalidOperationException("Publication name can not be null.");
             }
 
             try
             {
-                _context.Publications.Add(Publisher);
+                _context.Publications.Add(publication);
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
 
-                return Publisher;
+                return publication;
             }
             catch (Exception ex)
             {
@@ -46,22 +46,22 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Delete(int Id)
+        public async Task<bool> Delete(int Id, CancellationToken cancellationToken)
         {
             if (Id <= 0)
             {
-                throw new InvalidOperationException("Publisher Id is not valid.");
+                throw new InvalidOperationException("Publication Id is not valid.");
             }
 
             try
             {
-                var Publisher = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var publication = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync(cancellationToken);
 
-                if (Publisher is not null)
+                if (publication is not null)
                 {
-                    _context.Publications.Remove(Publisher);
+                    publication.IsDeleted = true;
 
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
 
                     return true;
                 }
@@ -77,29 +77,29 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Edit(Publication Publisher)
+        public async Task<bool> Edit(Publication publication, CancellationToken cancellationToken)
         {
-            if (Publisher.Id <= 0)
+            if (publication.Id <= 0)
             {
-                throw new InvalidOperationException("Publisher Id is not valid.");
+                throw new InvalidOperationException("Publication Id is not valid.");
             }
 
-            if (string.IsNullOrWhiteSpace(Publisher.Name))
+            if (string.IsNullOrWhiteSpace(publication.Name))
             {
-                throw new InvalidOperationException("Publisher name can not be null.");
+                throw new InvalidOperationException("Publication name can not be null.");
             }
 
             try
             {
-                var dbPublisher = await _context.Publications.Where(c => c.Id == Publisher.Id).FirstOrDefaultAsync();
+                var dbPublication = await _context.Publications.Where(c => c.Id == publication.Id).FirstOrDefaultAsync(cancellationToken);
 
-                if (dbPublisher is not null)
+                if (dbPublication is not null)
                 {
-                    dbPublisher.Name = Publisher.Name;
-                    dbPublisher.Address = Publisher.Address;
-                    dbPublisher.WebSiteUrl = Publisher.WebSiteUrl;
+                    dbPublication.Name = publication.Name;
+                    dbPublication.Address = publication.Address;
+                    dbPublication.WebSiteUrl = publication.WebSiteUrl;
 
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync(cancellationToken);
 
                     return true;
                 }
@@ -114,13 +114,13 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<Publication> Get(int Id)
+        public async Task<Publication> Get(int Id, CancellationToken cancellationToken)
         {
             try
             {
-                var Publisher = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync();
+                var publication = await _context.Publications.Where(c => c.Id == Id).FirstOrDefaultAsync(cancellationToken);
 
-                return Publisher;
+                return publication;
             }
             catch (Exception ex)
             {
@@ -128,13 +128,13 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<List<Publication>> GetAll()
+        public async Task<List<Publication>> GetAll(CancellationToken cancellationToken)
         {
             try
             {
-                var Publishers = await _context.Publications.ToListAsync();
+                var publications = await _context.Publications.ToListAsync(cancellationToken);
 
-                return Publishers.OrderBy(c => c.Name).ToList();
+                return publications.OrderBy(c => c.Name).ToList();
             }
             catch (Exception ex)
             {

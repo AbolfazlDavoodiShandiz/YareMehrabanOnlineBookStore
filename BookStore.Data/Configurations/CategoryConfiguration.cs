@@ -13,8 +13,6 @@ namespace BookStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.HasQueryFilter(c => c.IsDeleted == false);
-
             builder.HasMany(c => c.Books)
                 .WithMany(b => b.Categories);
         }

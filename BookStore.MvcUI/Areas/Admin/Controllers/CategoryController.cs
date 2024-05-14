@@ -20,18 +20,18 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CategoryViewModel>>> List()
+        public async Task<ActionResult<List<CategoryViewModel>>> List(CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll();
+            var categories = await _categoryServices.GetAll(cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             return View(categoriesViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null)
+        public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
         {
-            var categories = await _categoryServices.GetAll();
+            var categories = await _categoryServices.GetAll(cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
@@ -47,7 +47,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             }
             else if (productActionType == ProductActionType.Update)
             {
-                var category = await _categoryServices.Get(Id.GetValueOrDefault());
+                var category = await _categoryServices.Get(Id.GetValueOrDefault(), cancellationToken);
 
                 if (category is null)
                 {
@@ -66,9 +66,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateCategoryViewModel updateCategoryViewModel)
+        public async Task<IActionResult> Update(UpdateCategoryViewModel updateCategoryViewModel, CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll();
+            var categories = await _categoryServices.GetAll(cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
@@ -82,7 +82,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             {
                 var newCategory = _mapper.Map<Category>(updateCategoryViewModel);
 
-                var category = await _categoryServices.Add(newCategory);
+                var category = await _categoryServices.Add(newCategory, cancellationToken);
 
                 if (category.Id > 0)
                 {
@@ -106,7 +106,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
                 var updateCategory = _mapper.Map<Category>(updateCategoryViewModel);
 
-                bool result = await _categoryServices.Edit(updateCategory);
+                bool result = await _categoryServices.Edit(updateCategory, cancellationToken);
 
                 if (result)
                 {
@@ -124,9 +124,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int Id, CancellationToken cancellationToken)
         {
-            var result = await _categoryServices.Delete(Id);
+            var result = await _categoryServices.Delete(Id, cancellationToken);
 
             return Json(result);
         }

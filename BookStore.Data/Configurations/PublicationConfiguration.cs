@@ -13,8 +13,6 @@ namespace BookStore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Publication> builder)
         {
-            builder.HasQueryFilter(p => p.IsDeleted == false);
-
             builder.HasMany(p => p.Books)
                 .WithOne(p => p.Publication)
                 .HasForeignKey(p => p.PublicationId);
