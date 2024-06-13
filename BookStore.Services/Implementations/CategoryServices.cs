@@ -127,13 +127,23 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<List<Category>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<Category>> GetAll(CancellationToken cancellationToken, string filterText)
         {
             try
             {
-                var categories = await _context.Categories.ToListAsync(cancellationToken);
+                if (string.IsNullOrWhiteSpace(filterText))
+                {
+                    var categories = await _context.Categories.ToListAsync(cancellationToken);
 
-                return categories.OrderBy(c => c.Name).ToList();
+                    return categories.OrderBy(c => c.Name).ToList();
+                }
+                else
+                {
+                    var categories = await _context.Categories.Where(c => c.Name.Contains(filterText)).ToListAsync(cancellationToken);
+
+                    return categories.OrderBy(c => c.Name).ToList();
+                }
+
             }
             catch (Exception ex)
             {

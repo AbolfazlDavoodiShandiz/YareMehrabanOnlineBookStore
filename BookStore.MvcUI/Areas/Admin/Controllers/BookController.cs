@@ -1,4 +1,5 @@
 ﻿using BookStore.Common.Enums;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,22 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null)
+        public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
         {
-            return View();
+            UpdateBookViewModel updateBookViewModel = new UpdateBookViewModel();
+
+            return View(updateBookViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(CancellationToken cancellationToken, UpdateBookViewModel updateBookViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+
+            }
+
+            return View(updateBookViewModel);
         }
     }
 }

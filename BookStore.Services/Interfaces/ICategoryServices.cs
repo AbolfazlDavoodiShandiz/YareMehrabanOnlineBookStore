@@ -9,7 +9,7 @@ namespace BookStore.Services.Interfaces
 {
     public interface ICategoryServices
     {
-        Task<List<Category>> GetAll(CancellationToken cancellationToken);
+        Task<List<Category>> GetAll(CancellationToken cancellationToken, string filterText = null);
         Task<Category> Get(int Id, CancellationToken cancellationToken);
         Task<Category> Add(Category category, CancellationToken cancellationToken);
         Task<bool> Edit(Category category, CancellationToken cancellationToken);

@@ -1,0 +1,195 @@
+﻿@model UpdateBookViewModel
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                @if (Model.ProductActionType == ProductActionType.Create)
+                {
+                    <h3 class="content-header">ثبت کتاب جدید</h3>
+                }
+                else if (Model.ProductActionType == ProductActionType.Update)
+                {
+                    <h3 class="content-header">ویرایش کتاب</h3>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-success">
+                        </div>
+                        <div class="text-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+                            <form class="form" asp-area="Admin" asp-controller="Book" asp-action="Update" method="post">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">عنوان کتاب</label>
+                                                <input type="text" class="form-control" id="Title" name="Title" asp-for="Title">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">شابک(ISBN)</label>
+                                                <input type="text" class="form-control" id="ISBN" name="ISBN" asp-for="ISBN">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">نویسنده</label>
+                                                <input type="text" class="form-control" id="Author" name="Author" asp-for="Author">
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="Id" name="Id" asp-for="Id" />
+                                                <input type="hidden" id="ProductActionType" name="ProductActionType" asp-for="ProductActionType" />
+                                                <label for="basicInput">مترجم</label>
+                                                <input type="text" class="form-control" id="Translator" name="Translator" asp-for="Translator">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">نوبت چاپ</label>
+                                                <input type="text" class="form-control" id="Edition" name="Edition" asp-for="Edition">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <div class="row">
+                                                <div class="col-xl-6 col-lg-6 col-md-6 mb-1">
+                                                    <fieldset class="form-group">
+                                                        <label for="basicInput">سال انتشار</label>
+                                                        <input type="text" class="form-control" id="PublishYear" name="PublishYear" asp-for="PublishYear">
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col-xl-6 col-lg-6 col-md-6 mb-1">
+                                                    <fieldset class="form-group">
+                                                        <label for="basicInput">ماه انتشار</label>
+                                                        <input type="text" class="form-control" id="PublishMonth" name="PublishMonth" asp-for="PublishMonth">
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">تعداد صفحات</label>
+                                                <input type="text" class="form-control" id="Pages" name="Pages" asp-for="Pages">
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">اندازه</label>
+                                                <select class="form-control" id="Size" name="Size" asp-for="Size">
+                                                    <option value="0">وزیری</option>
+                                                    <option value="1">رقعی</option>
+                                                    <option value="2">رحلی</option>
+                                                    <option value="3">جیبی</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">جلد</label>
+                                                <select class="form-control" id="CoverType" name="CoverType" asp-for="CoverType">
+                                                    <option value="0">نرم</option>
+                                                    <option value="1">سخت</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">موجودی</label>
+                                                <input type="text" class="form-control" id="Quantity" name="Quantity" asp-for="Quantity">
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <input type="hidden" id="CategoriesString" name="CategoriesString" asp-for="CategoriesString" />
+                                            <div id="ms" class="form-control"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn mr-1 btn-success col-12">ذخیره</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script src="~/lib/magicsuggest/magicsuggest.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            getCategories();
+        });
+
+        function makeCategoriesTagInput(categories) {
+
+            let names = categories.map((item) => item.name);
+
+            var ms = $('#ms').magicSuggest({
+                data: names
+            });
+
+            $(ms).on('selectionchange', function (e, t) {
+
+                let selectedCategories = this.getValue();
+
+                setSelectedCategories(categories, selectedCategories);
+            });
+        };
+
+        function getCategories() {
+            $.ajax({
+                url: "/Admin/Category/GetListAsJson",
+                method: "Get",
+                dataType: "json",
+                success: makeCategoriesTagInput,
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function setSelectedCategories(categories, selectedCategories) {
+
+            let selectedCategoryObjects = [];
+
+            selectedCategories.forEach(item => {
+                selectedCategoryObjects.push(categories.find(c => c.name === item));
+            });
+
+            console.log(JSON.stringify(selectedCategoryObjects));
+
+            $('#CategoriesString').attr('value', JSON.stringify(selectedCategoryObjects));
+        }
+    </script>
+}

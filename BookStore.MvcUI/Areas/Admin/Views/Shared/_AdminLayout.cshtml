@@ -9,6 +9,8 @@
     <meta name="keywords" content="admin template, Convex admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
     <title>پنل مدیریت فروشگاه یار مهربان</title>
+@*     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css"> *@
+    <link rel="stylesheet" type="text/css" href="~/admin-template/app-assets/vendors/css/jquery-ui.min.css">
     <link rel="apple-touch-icon" sizes="60x60" href="~/admin-template/app-assets/img/ico/apple-icon-60.html">
     <link rel="apple-touch-icon" sizes="76x76" href="~/admin-template/app-assets/img/ico/apple-icon-76.html">
     <link rel="apple-touch-icon" sizes="120x120" href="~/admin-template/app-assets/img/ico/apple-icon-120.html">
@@ -27,6 +29,9 @@
     <link rel="stylesheet" type="text/css" href="~/admin-template/app-assets/vendors/css/chartist.min.css">
     <link rel="stylesheet" type="text/css" href="~/admin-template/app-assets/css/app.css">
     <link rel="stylesheet" type="text/css" href="~/lib/sweetalert2/sweetalert2.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/magicsuggest/magicsuggest.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/admin-template/app-assets/css/app.css">
 </head>
 <body data-col="2-columns" class=" 2-columns ">
     <div class="wrapper">
@@ -78,10 +83,10 @@
                                     <a href="#" class="menu-item">کتاب ها</a>
                                     <ul class="menu-content">
                                         <li>
-                                            <a href="sweet-alerts.html" class="menu-item">لیست کتاب ها</a>
+                                            <a asp-area="Admin" asp-controller="Book" asp-action="List" class="menu-item">لیست کتاب ها</a>
                                         </li>
                                         <li>
-                                            <a href="toastr.html" class="menu-item">افزودن کتاب جدید</a>
+                                            <a asp-area="Admin" asp-controller="Book" asp-action="Update" class="menu-item">افزودن کتاب جدید</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -351,6 +356,7 @@
 
     <!-- BEGIN VENDOR JS-->
     <script src="~/admin-template/app-assets/vendors/js/core/jquery-3.3.1.min.js"></script>
+    <script src="~/admin-template/app-assets/vendors/js/jquery-ui.min.js"></script>
     <script src="~/admin-template/app-assets/js/persian-datepicker.min.js"></script>
     <script src="~/admin-template/app-assets/vendors/js/core/popper.min.js"></script>
     <script src="~/admin-template/app-assets/vendors/js/core/bootstrap.min.js"></script>
@@ -367,6 +373,7 @@
     <!-- END CONVEX JS-->
 
     <script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+
 </body>
 
 </html>

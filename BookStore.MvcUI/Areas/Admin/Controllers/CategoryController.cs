@@ -130,5 +130,15 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
             return Json(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListAsJson(string filterText, CancellationToken cancellationToken)
+        {
+            var categories = await _categoryServices.GetAll(cancellationToken, filterText);
+
+            var list = _mapper.Map<List<CategoryViewModel>>(categories);
+
+            return Json(list);
+        }
     }
 }

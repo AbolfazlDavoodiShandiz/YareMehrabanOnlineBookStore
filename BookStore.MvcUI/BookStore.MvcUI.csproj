@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\tagIt\**" />
     <Compile Remove="wwwroot\siteTemplate\**" />
+    <Content Remove="wwwroot\lib\tagIt\**" />
     <Content Remove="wwwroot\siteTemplate\**" />
+    <EmbeddedResource Remove="wwwroot\lib\tagIt\**" />
     <EmbeddedResource Remove="wwwroot\siteTemplate\**" />
+    <None Remove="wwwroot\lib\tagIt\**" />
     <None Remove="wwwroot\siteTemplate\**" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿using BookStore.Entities.Product;
+﻿using BookStore.Data.Configurations;
+using BookStore.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -22,6 +23,10 @@ namespace BookStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
+            modelBuilder.ApplyConfiguration(new PublicationConfiguration());
+
             modelBuilder.Entity<Category>().HasQueryFilter(c => c.IsDeleted == false);
             modelBuilder.Entity<Book>().HasQueryFilter(c => c.IsDeleted == false);
             modelBuilder.Entity<Publication>().HasQueryFilter(c => c.IsDeleted == false);
