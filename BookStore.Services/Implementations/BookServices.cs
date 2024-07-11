@@ -19,7 +19,7 @@ namespace BookStore.Services.Implementations
             _context = context;
         }
 
-        public async Task<Book> Add(Book book)
+        public async Task<Book> Add(Book book, CancellationToken cancellationToken = default)
         {
             if (book is null)
             {
@@ -55,22 +55,22 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public Task<bool> Delete(int Id)
+        public Task<bool> Delete(int Id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Edit(Book book)
+        public Task<bool> Edit(Book book, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Book> Get(int Id)
+        public Task<Book> Get(int Id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Book>> GetAll()
+        public Task<List<Book>> GetAll(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

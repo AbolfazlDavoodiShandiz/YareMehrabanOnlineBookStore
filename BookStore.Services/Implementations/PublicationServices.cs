@@ -20,7 +20,7 @@ namespace BookStore.Services.Implementations
             _context = context;
         }
 
-        public async Task<Publication> Add(Publication publication, CancellationToken cancellationToken)
+        public async Task<Publication> Add(Publication publication, CancellationToken cancellationToken=default)
         {
             if (publication is null)
             {
@@ -46,7 +46,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Delete(int Id, CancellationToken cancellationToken)
+        public async Task<bool> Delete(int Id, CancellationToken cancellationToken = default)
         {
             if (Id <= 0)
             {
@@ -77,7 +77,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<bool> Edit(Publication publication, CancellationToken cancellationToken)
+        public async Task<bool> Edit(Publication publication, CancellationToken cancellationToken = default)
         {
             if (publication.Id <= 0)
             {
@@ -114,7 +114,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<Publication> Get(int Id, CancellationToken cancellationToken)
+        public async Task<Publication> Get(int Id, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        public async Task<List<Publication>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<Publication>> GetAll(CancellationToken cancellationToken = default)
         {
             try
             {

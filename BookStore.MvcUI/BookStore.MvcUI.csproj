@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="DatabaseInitialData\CategoryData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Areas\Admin\Views\Shared\_AdminLayout.cshtml~RF1fb5aec5.TMP" />
   </ItemGroup>
 
@@ -26,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="DatabaseInitialData\CategoryData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="wwwroot\admin-template\app-assets\fonts\feather\fonts\feather2467.svg.tmp" />
     <None Include="wwwroot\admin-template\app-assets\fonts\meteocons\style.min.css.tmp" />
     <None Include="wwwroot\admin-template\app-assets\fonts\simple-line-icons\fonts\Simple-Line-Icons.svg" />

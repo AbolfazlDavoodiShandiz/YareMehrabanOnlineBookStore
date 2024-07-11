@@ -27,7 +27,6 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-
             }
 
             return View(updateBookViewModel);

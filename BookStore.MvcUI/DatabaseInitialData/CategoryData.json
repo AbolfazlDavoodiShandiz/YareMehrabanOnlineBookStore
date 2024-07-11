@@ -1,0 +1,197 @@
+[
+  {
+    "Id": 1,
+    "Name": "عمومی"
+  },
+  {
+    "Id": 2,
+    "Name": "ادبیات",
+    "ParentId": 1
+  },
+  {
+    "Id": 3,
+    "Name": "روانشناسی",
+    "ParentId": 1
+  },
+  {
+    "Id": 4,
+    "Name": "تاریخ",
+    "ParentId": 1
+  },
+  {
+    "Id": 5,
+    "Name": "هنر",
+    "ParentId": 1
+  },
+  {
+    "Id": 6,
+    "Name": "مدیریت",
+    "ParentId": 1
+  },
+  {
+    "Id": 7,
+    "Name": "اقتصاد",
+    "ParentId": 1
+  },
+  {
+    "Id": 8,
+    "Name": "زندگینامه",
+    "ParentId": 1
+  },
+  {
+    "Id": 9,
+    "Name": "ایران",
+    "ParentId": 1
+  },
+  {
+    "Id": 10,
+    "Name": "دایرة المعارف",
+    "ParentId": 1
+  },
+  {
+    "Id": 11,
+    "Name": "سیاست",
+    "ParentId": 1
+  },
+  {
+    "Id": 12,
+    "Name": "دانشگاهی"
+  },
+  {
+    "Id": 13,
+    "Name": "برق",
+    "ParentId": 12
+  },
+  {
+    "Id": 14,
+    "Name": "کامپیوتر",
+    "ParentId": 12
+  },
+  {
+    "Id": 15,
+    "Name": "فیزیک",
+    "ParentId": 12
+  },
+  {
+    "Id": 16,
+    "Name": "شیمی",
+    "ParentId": 12
+  },
+  {
+    "Id": 17,
+    "Name": "زیست شناسی",
+    "ParentId": 12
+  },
+  {
+    "Id": 18,
+    "Name": "عمران",
+    "ParentId": 12
+  },
+  {
+    "Id": 19,
+    "Name": "مکانیک",
+    "ParentId": 12
+  },
+  {
+    "Id": 20,
+    "Name": "صنایع",
+    "ParentId": 12
+  },
+  {
+    "Id": 21,
+    "Name": "ریاضی",
+    "ParentId": 12
+  },
+  {
+    "Id": 22,
+    "Name": "حقوق",
+    "ParentId": 12
+  },
+  {
+    "Id": 23,
+    "Name": "زبان"
+  },
+  {
+    "Id": 24,
+    "Name": "انگلیسی",
+    "ParentId": 23
+  },
+  {
+    "Id": 25,
+    "Name": "فرانسوی",
+    "ParentId": 23
+  },
+  {
+    "Id": 26,
+    "Name": "عربی",
+    "ParentId": 23
+  },
+  {
+    "Id": 27,
+    "Name": "آلمانی",
+    "ParentId": 23
+  },
+  {
+    "Id": 28,
+    "Name": "کودک و نوجوان"
+  },
+  {
+    "Id": 29,
+    "Name": "علوم کامپیوتر"
+  },
+  {
+    "Id": 30,
+    "Name": "شبکه",
+    "ParentId": 29
+  },
+  {
+    "Id": 31,
+    "Name": "Network+",
+    "ParentId": 30
+  },
+  {
+    "Id": 32,
+    "Name": "CCNA",
+    "ParentId": 30
+  },
+  {
+    "Id": 33,
+    "Name": "امنیت شبکه",
+    "ParentId": 30
+  },
+  {
+    "Id": 34,
+    "Name": "گرافیک",
+    "ParentId": 29
+  },
+  {
+    "Id": 35,
+    "Name": "انیمیشن",
+    "ParentId": 34
+  },
+  {
+    "Id": 36,
+    "Name": "موشن گرافیک",
+    "ParentId": 34
+  },
+  {
+    "Id": 37,
+    "Name": "برنامه نویسی",
+    "ParentId": 29
+  },
+  {
+    "Id": 38,
+    "Name": "C",
+    "ParentId": 37
+  },
+  {
+    "Id": 39,
+    "Name": "C++",
+    "ParentId": 37
+  },
+  {
+    "Id": 40,
+    "Name": "C#",
+    "ParentId": 37
+  }
+]

@@ -1,4 +1,5 @@
-﻿using BookStore.Entities.Product;
+﻿using BookStore.Data;
+using BookStore.Entities.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace BookStore.Services.Interfaces
 {
     public interface ICategoryServices
     {
-        Task<List<Category>> GetAll(CancellationToken cancellationToken, string filterText = null);
-        Task<Category> Get(int Id, CancellationToken cancellationToken);
-        Task<Category> Add(Category category, CancellationToken cancellationToken);
-        Task<bool> Edit(Category category, CancellationToken cancellationToken);
-        Task<bool> Delete(int Id, CancellationToken cancellationToken);
+        Task<List<Category>> GetAll(string filterText = null, CancellationToken cancellationToken = default);
+        Task<Category> Get(int Id, CancellationToken cancellationToken = default);
+        Task<Category> Add(Category category, CancellationToken cancellationToken = default);
+        Task<bool> Edit(Category category, CancellationToken cancellationToken = default);
+        Task<bool> Delete(int Id, CancellationToken cancellationToken = default);
     }
 }

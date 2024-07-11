@@ -22,7 +22,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CategoryViewModel>>> List(CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll(cancellationToken);
+            var categories = await _categoryServices.GetAll(cancellationToken: cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             return View(categoriesViewModel);
@@ -31,7 +31,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
         {
-            var categories = await _categoryServices.GetAll(cancellationToken);
+            var categories = await _categoryServices.GetAll(cancellationToken: cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
@@ -68,7 +68,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCategoryViewModel updateCategoryViewModel, CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll(cancellationToken);
+            var categories = await _categoryServices.GetAll(cancellationToken: cancellationToken);
             var categoriesViewModel = _mapper.Map<List<CategoryViewModel>>(categories);
 
             ViewBag.CategoryList = new SelectList(categoriesViewModel, "Id", "Name");
@@ -134,7 +134,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListAsJson(string filterText, CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll(cancellationToken, filterText);
+            var categories = await _categoryServices.GetAll(filterText, cancellationToken);
 
             var list = _mapper.Map<List<CategoryViewModel>>(categories);
 

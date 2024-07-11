@@ -1,5 +1,9 @@
 ﻿using BookStore.Common.Enums;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
+using BookStore.Services.Interfaces;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 {
@@ -21,7 +25,18 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
         public int Quantity { get; set; }
         public ProductActionType ProductActionType { get; set; }
 
-        public List<string> Categories { get; set; }
+        public List<CategoryViewModel> Categories
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(CategoriesString))
+                {
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<List<CategoryViewModel>>(CategoriesString);
+            }
+        }
         public string CategoriesString { get; set; }
 
         public int PublicationId { get; set; }

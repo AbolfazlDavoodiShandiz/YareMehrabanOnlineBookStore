@@ -25,7 +25,7 @@ namespace BookStore.MvcUI.ViewComponents
 
         private async Task<List<CategoryViewModel>> GenerateCategoryViewModelList(CancellationToken cancellationToken)
         {
-            var categories = await _categoryServices.GetAll(cancellationToken);
+            var categories = await _categoryServices.GetAll(cancellationToken: cancellationToken);
 
             var list = _mapper.Map<List<CategoryViewModel>>(categories);
 

@@ -66,7 +66,7 @@ namespace BookStore.Test.ServicesTests
         [Trait("Services", "Category")]
         public async Task GetAll_Should_Return_List_Of_Type_Category()
         {
-            var result = await _categoryServices.GetAll(_cancellationToken);
+            var result = await _categoryServices.GetAll(null, _cancellationToken);
 
             Assert.NotNull(result);
             Assert.IsType<List<Category>>(result);

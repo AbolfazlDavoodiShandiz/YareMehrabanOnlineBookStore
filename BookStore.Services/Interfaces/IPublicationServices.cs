@@ -9,10 +9,10 @@ namespace BookStore.Services.Interfaces
 {
     public interface IPublicationServices
     {
-        Task<List<Publication>> GetAll(CancellationToken cancellationToken);
-        Task<Publication> Get(int Id, CancellationToken cancellationToken);
-        Task<Publication> Add(Publication publication, CancellationToken cancellationToken);
-        Task<bool> Edit(Publication publication, CancellationToken cancellationToken);
-        Task<bool> Delete(int Id, CancellationToken cancellationToken);
+        Task<List<Publication>> GetAll(CancellationToken cancellationToken = default);
+        Task<Publication> Get(int Id, CancellationToken cancellationToken = default);
+        Task<Publication> Add(Publication publication, CancellationToken cancellationToken = default);
+        Task<bool> Edit(Publication publication, CancellationToken cancellationToken = default);
+        Task<bool> Delete(int Id, CancellationToken cancellationToken = default);
     }
 }

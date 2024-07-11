@@ -1,5 +1,6 @@
 using BookStore.Common.Secrets;
 using BookStore.Data;
+using BookStore.MvcUI.Extensions;
 using BookStore.Services.Implementations;
 using BookStore.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IPublicationServices, PublicationServices>();
 builder.Services.AddScoped<IBookServices, BookServices>();
 
 var app = builder.Build();
+
+await app.InitialDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
