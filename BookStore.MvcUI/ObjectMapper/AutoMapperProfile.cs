@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookStore.Entities.Product;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
 
@@ -22,6 +23,12 @@ namespace BookStore.MvcUI.ObjectMapper
 
             CreateMap<Publication, UpdatePublicationViewModel>();
             CreateMap<UpdatePublicationViewModel, Publication>();
+
+            CreateMap<Book, BookViewModel>();
+            CreateMap<BookViewModel, Book>();
+
+            CreateMap<Book, UpdateBookViewModel>();
+            CreateMap<UpdateBookViewModel, Book>();
         }
     }
 }

@@ -43,11 +43,35 @@ namespace BookStore.Services.Implementations
 
             try
             {
-                _context.Books.Add(book);
+                var categoryList = _context.Categories.Where(c => book.Categories.Select(cc => cc.Id).ToList().Contains(c.Id));
+
+                var newBook = new Book()
+                {
+                    Title = book.Title,
+                    ISBN = book.ISBN,
+                    Author = book.Author,
+                    Translator = book.Translator,
+                    Edition = book.Edition,
+                    PublishDate = book.PublishDate,
+                    PrintNo = book.PrintNo,
+                    Pages = book.Pages,
+                    Size = book.Size,
+                    CoverType = book.CoverType,
+                    Quantity = book.Quantity,
+                    PublicationId= book.PublicationId,
+                    Categories=new List<Category>()
+                };
+
+                foreach (var category in categoryList)
+                {
+                    newBook.Categories.Add(category);
+                }
+
+                _context.Books.Add(newBook);
 
                 await _context.SaveChangesAsync();
 
-                return book;
+                return newBook;
             }
             catch (Exception ex)
             {

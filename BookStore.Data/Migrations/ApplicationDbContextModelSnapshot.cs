@@ -51,8 +51,8 @@ namespace BookStore.Data.Migrations
                     b.Property<string>("CoverType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Edition")
-                        .HasColumnType("int");
+                    b.Property<string>("Edition")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");

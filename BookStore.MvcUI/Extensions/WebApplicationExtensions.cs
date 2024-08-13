@@ -17,6 +17,7 @@ namespace BookStore.MvcUI.Extensions
             try
             {
                 string categoryFilePath = @"~/../DatabaseInitialData/CategoryData.json";
+                string publicationFilePath = @"~/../DatabaseInitialData/PublicationData.json";
 
                 if (File.Exists(categoryFilePath))
                 {
@@ -34,6 +35,26 @@ namespace BookStore.MvcUI.Extensions
                         }
 
                         await dbContext.Categories.AddRangeAsync(categories);
+                        await dbContext.SaveChangesAsync();
+                    }
+                }
+
+                if (File.Exists(publicationFilePath))
+                {
+                    var jsonString = File.ReadAllText(publicationFilePath);
+
+                    var filePublicationList = JsonConvert.DeserializeObject<List<Publication>>(jsonString);
+
+                    if (dbContext.Publications.Count() == 0)
+                    {
+                        List<Publication> publications = new List<Publication>();
+
+                        foreach (var publication in filePublicationList)
+                        {
+                            publications.Add(new Publication { Name = publication.Name });
+                        }
+
+                        await dbContext.Publications.AddRangeAsync(publications);
                         await dbContext.SaveChangesAsync();
                     }
                 }

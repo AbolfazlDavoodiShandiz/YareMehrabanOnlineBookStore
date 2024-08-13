@@ -56,7 +56,7 @@ namespace BookStore.Data.Migrations
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Translator = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Edition = table.Column<int>(type: "int", nullable: false),
+                    Edition = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PrintNo = table.Column<int>(type: "int", nullable: false),
                     Pages = table.Column<int>(type: "int", nullable: false),

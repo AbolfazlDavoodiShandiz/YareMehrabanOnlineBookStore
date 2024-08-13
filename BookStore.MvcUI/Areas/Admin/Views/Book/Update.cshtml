@@ -118,8 +118,20 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-4">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">دسته بندی</label>
                                             <input type="hidden" id="CategoriesString" name="CategoriesString" asp-for="CategoriesString" />
                                             <div id="ms" class="form-control"></div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-4">
+                                            <fieldset class="form-group">
+                                                <label for="basicInput">انتشارات</label>
+                                                <select class="custom-select d-block w-100" id="PublicationId" name="PublicationId" asp-for="PublicationId"
+                                                        asp-items="@(ViewBag.PublicationsList)">
+                                                    <option value="0">انتخاب کنید</option>
+                                                </select>
+                                            </fieldset>
                                         </div>
                                     </div>
                                     <div class="row mt-2">

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240703181711_Init")]
+    [Migration("20240813181825_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -54,8 +54,8 @@ namespace BookStore.Data.Migrations
                     b.Property<string>("CoverType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Edition")
-                        .HasColumnType("int");
+                    b.Property<string>("Edition")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
