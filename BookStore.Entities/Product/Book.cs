@@ -1,10 +1,4 @@
-﻿using BookStore.Common.Enums;
-using BookStore.Entities.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookStore.Entities.Common;
 
 namespace BookStore.Entities.Product
 {
@@ -22,6 +16,8 @@ namespace BookStore.Entities.Product
         public string CoverType { get; set; }
         public bool IsDeleted { get; set; }
         public int Quantity { get; set; }
+
+        public ICollection<BookImage> Images { get; set; }
 
         public ICollection<Category> Categories { get; set; }
 

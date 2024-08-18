@@ -1,10 +1,7 @@
 ﻿using BookStore.Common.Enums;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
-using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
-using BookStore.Services.Interfaces;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 
 namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 {
@@ -57,6 +54,8 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 
         [Range(1, int.MaxValue, ErrorMessage = "ورود انتشارات کتاب ضروری است.")]
         public int PublicationId { get; set; }
+
+        public ICollection<BookImageViewModel> Images { get; set; } = new List<BookImageViewModel>();
 
         public List<CategoryViewModel> Categories
         {

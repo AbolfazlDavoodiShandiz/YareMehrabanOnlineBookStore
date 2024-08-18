@@ -29,6 +29,9 @@ namespace BookStore.MvcUI.ObjectMapper
 
             CreateMap<Book, UpdateBookViewModel>();
             CreateMap<UpdateBookViewModel, Book>();
+
+            CreateMap<BookImage, BookImageViewModel>();
+            CreateMap<BookImageViewModel, BookImage>();
         }
     }
 }

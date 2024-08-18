@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="px-3">
-                            <form class="form" asp-area="Admin" asp-controller="Book" asp-action="Update" method="post">
+                            <form class="form" asp-area="Admin" asp-controller="Book" asp-action="Update" method="post" enctype="multipart/form-data">
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
@@ -131,6 +131,15 @@
                                                         asp-items="@(ViewBag.PublicationsList)">
                                                     <option value="0">انتخاب کنید</option>
                                                 </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                            <fieldset class="form-group">
+                                                <input type="hidden" id="hfParentId" value="@ViewBag.ParentId" />
+                                                <label for="name">تصاویر</label>
+                                                <input type="file" multiple accept="image/*" class="form-control" id="images" name="images" />
                                             </fieldset>
                                         </div>
                                     </div>

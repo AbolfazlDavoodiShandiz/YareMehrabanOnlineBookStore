@@ -2,11 +2,6 @@
 using BookStore.Data;
 using BookStore.Entities.Product;
 using BookStore.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Services.Implementations
 {
@@ -58,13 +53,20 @@ namespace BookStore.Services.Implementations
                     Size = book.Size,
                     CoverType = book.CoverType,
                     Quantity = book.Quantity,
-                    PublicationId= book.PublicationId,
-                    Categories=new List<Category>()
+                    PublicationId = book.PublicationId,
+                    Categories = new List<Category>(),
+                    Images = new List<BookImage>()
                 };
 
                 foreach (var category in categoryList)
                 {
                     newBook.Categories.Add(category);
+                }
+
+                foreach (var image in book.Images)
+                {
+                    image.Book = newBook;
+                    newBook.Images.Add(image);
                 }
 
                 _context.Books.Add(newBook);
