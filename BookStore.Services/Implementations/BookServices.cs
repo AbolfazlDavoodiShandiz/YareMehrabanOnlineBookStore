@@ -1,7 +1,9 @@
-﻿using BookStore.Common.Exceptions;
+﻿using BookStore.Common.DTOs.Product;
+using BookStore.Common.Exceptions;
 using BookStore.Data;
 using BookStore.Entities.Product;
 using BookStore.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Services.Implementations
 {
@@ -96,9 +98,33 @@ namespace BookStore.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<List<Book>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<List<Book>> GetAll(BookFilterDTO bookFilter = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (bookFilter is null)
+                {
+                    return await _context.Books.OrderBy(b => b.Title).ToListAsync();
+                }
+
+                var books = _context.Books.AsQueryable();
+
+                books = books.Where(b => (string.IsNullOrWhiteSpace(bookFilter.FilterText)
+                || b.Title.Contains(bookFilter.FilterText)
+                || b.Author.Contains(bookFilter.FilterText)
+                || b.Translator.Contains(bookFilter.FilterText)
+                || b.ISBN.Contains(bookFilter.FilterText)
+                || b.Categories.Any(c => c.Name.Contains(bookFilter.FilterText))
+                || b.Publication.Name.Contains(bookFilter.FilterText))
+                && (bookFilter.FilterPublicationId == 0 || b.Publication.Id == bookFilter.FilterPublicationId)
+                && (bookFilter.FilterCategoryId == 0 || b.Categories.Any(c => c.Id == bookFilter.FilterCategoryId)));
+
+                return await books.OrderBy(b => b.Title).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
         }
     }
 }

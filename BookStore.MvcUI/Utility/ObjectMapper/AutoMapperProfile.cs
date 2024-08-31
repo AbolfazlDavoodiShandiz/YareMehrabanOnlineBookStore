@@ -4,7 +4,7 @@ using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
 
-namespace BookStore.MvcUI.ObjectMapper
+namespace BookStore.MvcUI.Utility.ObjectMapper
 {
     public class AutoMapperProfile : Profile
     {
@@ -32,6 +32,9 @@ namespace BookStore.MvcUI.ObjectMapper
 
             CreateMap<BookImage, BookImageViewModel>();
             CreateMap<BookImageViewModel, BookImage>();
+
+            CreateMap<Book, BookListItemViewModel>();
+            CreateMap<BookListItemViewModel, Book>();
         }
     }
 }

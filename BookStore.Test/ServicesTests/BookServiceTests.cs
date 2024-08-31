@@ -1,14 +1,10 @@
-﻿using BookStore.Data;
+﻿using BookStore.Common.DTOs.Product;
+using BookStore.Data;
 using BookStore.Entities.Product;
 using BookStore.Services.Implementations;
 using BookStore.Services.Interfaces;
 using BookStore.Test.MockData;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Test.ServicesTests
 {
@@ -28,6 +24,19 @@ namespace BookStore.Test.ServicesTests
         public async Task GetAll_Should_Return_List_Of_Type_Book()
         {
             var result = await _services.GetAll();
+
+            Assert.NotNull(result);
+            Assert.IsType<List<Book>>(result);
+        }
+
+        [Fact]
+        [Trait("Services", "Book")]
+        public async Task GetAll_With_Filter_Should_Return_List_Of_Type_Book()
+        {
+            var result = await _services.GetAll(new BookFilterDTO
+            {
+                FilterText = "Book"
+            });
 
             Assert.NotNull(result);
             Assert.IsType<List<Book>>(result);

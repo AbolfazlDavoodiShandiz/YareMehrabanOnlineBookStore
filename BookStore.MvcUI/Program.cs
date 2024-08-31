@@ -1,6 +1,6 @@
 using BookStore.Common.Secrets;
 using BookStore.Data;
-using BookStore.MvcUI.Extensions;
+using BookStore.MvcUI.Utility.Extensions;
 using BookStore.Services.Implementations;
 using BookStore.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

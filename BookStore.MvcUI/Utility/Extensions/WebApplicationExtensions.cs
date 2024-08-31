@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Text.Json;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace BookStore.MvcUI.Extensions
+namespace BookStore.MvcUI.Utility.Extensions
 {
     public static class WebApplicationExtensions
     {

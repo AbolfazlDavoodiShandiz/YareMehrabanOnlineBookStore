@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="DatabaseInitialData\CategoryData.json" />
+    <Content Remove="Utility\DatabaseInitialData\CategoryData.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="DatabaseInitialData\CategoryData.json">
+    <None Include="Utility\DatabaseInitialData\CategoryData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="wwwroot\admin-template\app-assets\fonts\feather\fonts\feather2467.svg.tmp" />

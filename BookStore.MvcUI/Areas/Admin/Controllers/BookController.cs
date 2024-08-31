@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookStore.Common.DTOs.Product;
 using BookStore.Common.Enums;
 using BookStore.Common.FilePaths;
 using BookStore.Entities.Product;
@@ -13,19 +14,47 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
     {
         private readonly IBookServices _bookServices;
         private readonly IPublicationServices _publicationServices;
+        private readonly ICategoryServices _categoryServices;
         private readonly IMapper _mapper;
 
-        public BookController(IBookServices bookServices, IPublicationServices publicationServices, IMapper mapper)
+        public BookController(IBookServices bookServices, IPublicationServices publicationServices, IMapper mapper, ICategoryServices categoryServices)
         {
             _bookServices = bookServices;
             _publicationServices = publicationServices;
             _mapper = mapper;
+            _categoryServices = categoryServices;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BookViewModel>>> List()
+        public async Task<ActionResult<List<BookListViewModel>>> List(BookListViewModel bookListViewModel)
         {
-            return View();
+            var publicationList = await _publicationServices.GetAll();
+
+            ViewBag.PublicationsList = new SelectList(publicationList, "Id", "Name");
+
+            var categoryList = await _categoryServices.GetAll();
+
+            ViewBag.CategoryList = new SelectList(categoryList, "Id", "Name");
+
+            BookFilterDTO filterDTO = null;
+
+            if (!string.IsNullOrWhiteSpace(bookListViewModel.FilterText)
+                || bookListViewModel.FilterCategoryId != 0
+                || bookListViewModel.FilterPublicationId != 0)
+            {
+                filterDTO = new BookFilterDTO
+                {
+                    FilterText = bookListViewModel.FilterText,
+                    FilterCategoryId = bookListViewModel.FilterCategoryId,
+                    FilterPublicationId = bookListViewModel.FilterPublicationId
+                };
+            }
+
+            var books = await _bookServices.GetAll(filterDTO);
+
+            bookListViewModel.Books = _mapper.Map<List<BookListItemViewModel>>(books);
+
+            return View(bookListViewModel);
         }
 
         [HttpGet]
