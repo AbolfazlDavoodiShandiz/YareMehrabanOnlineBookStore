@@ -63,13 +63,13 @@ namespace BookStore.Data.Migrations
                     b.Property<int>("Pages")
                         .HasColumnType("int");
 
-                    b.Property<int>("PrintNo")
-                        .HasColumnType("int");
-
                     b.Property<int>("PublicationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublishDate")
+                    b.Property<string>("PublishMonth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublishYear")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")

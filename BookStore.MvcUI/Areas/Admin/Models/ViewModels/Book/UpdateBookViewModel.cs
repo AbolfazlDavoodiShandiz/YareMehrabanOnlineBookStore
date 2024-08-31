@@ -34,9 +34,6 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
         [Range(1, int.MaxValue, ErrorMessage = "تعداد صفحات کتاب باید بزرگتر از یک باشد.")]
         public int Pages { get; set; }
 
-        [Required(ErrorMessage = "ورود نوبت چاپ کتاب ضروری است.")]
-        public int PrintNo { get; set; }
-
         [Required(ErrorMessage = "ورود سایز کتاب ضروری است.")]
         public string Size { get; set; }
 
@@ -67,19 +64,6 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
                 }
 
                 return JsonConvert.DeserializeObject<List<CategoryViewModel>>(CategoriesString);
-            }
-        }
-
-        public string PublishDate
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(PublishYear) || string.IsNullOrWhiteSpace(PublishMonth))
-                {
-                    return string.Empty;
-                }
-
-                return $"{PublishYear} {PublishMonth}";
             }
         }
     }

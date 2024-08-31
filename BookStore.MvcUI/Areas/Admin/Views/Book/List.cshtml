@@ -59,6 +59,7 @@
                                                     <th>ISBN</th>
                                                     <th>نویسنده</th>
                                                     <th>مترجم</th>
+                                                    <th>دسته بندی</th>
                                                     <th>نوبت چاپ</th>
                                                     <th>ناشر</th>
                                                     <th>تاریخ انتشار</th>
@@ -76,6 +77,7 @@
                                                         <td>@Model.Books[index].ISBN</td>
                                                         <td>@Model.Books[index].Author</td>
                                                         <td>@Model.Books[index].Translator</td>
+                                                        <td>@Model.Books[index].CategoriesString</td>
                                                         <td>@Model.Books[index].Edition</td>
                                                         <td>@Model.Books[index].Publication.Name</td>
                                                         <td>@Model.Books[index].PublishDate</td>

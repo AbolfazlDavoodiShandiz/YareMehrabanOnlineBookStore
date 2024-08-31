@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240813181825_Init")]
+    [Migration("20240831184832_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -66,13 +66,13 @@ namespace BookStore.Data.Migrations
                     b.Property<int>("Pages")
                         .HasColumnType("int");
 
-                    b.Property<int>("PrintNo")
-                        .HasColumnType("int");
-
                     b.Property<int>("PublicationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublishDate")
+                    b.Property<string>("PublishMonth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublishYear")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
@@ -92,6 +92,33 @@ namespace BookStore.Data.Migrations
                     b.HasIndex("PublicationId");
 
                     b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("BookStore.Entities.Product.BookImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookImage");
                 });
 
             modelBuilder.Entity("BookStore.Entities.Product.Category", b =>
@@ -169,6 +196,17 @@ namespace BookStore.Data.Migrations
                     b.Navigation("Publication");
                 });
 
+            modelBuilder.Entity("BookStore.Entities.Product.BookImage", b =>
+                {
+                    b.HasOne("BookStore.Entities.Product.Book", "Book")
+                        .WithMany("Images")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("BookStore.Entities.Product.Category", b =>
                 {
                     b.HasOne("BookStore.Entities.Product.Category", "Parent")
@@ -176,6 +214,11 @@ namespace BookStore.Data.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("BookStore.Entities.Product.Book", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("BookStore.Entities.Product.Publication", b =>

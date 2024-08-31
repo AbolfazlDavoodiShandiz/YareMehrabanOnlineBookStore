@@ -1,9 +1,6 @@
 ﻿using BookStore.Data;
 using BookStore.Entities.Product;
-using BookStore.Services.Interfaces;
 using Newtonsoft.Json;
-using System.Text.Json;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace BookStore.MvcUI.Utility.Extensions
 {
@@ -16,8 +13,8 @@ namespace BookStore.MvcUI.Utility.Extensions
 
             try
             {
-                string categoryFilePath = @"~/../DatabaseInitialData/CategoryData.json";
-                string publicationFilePath = @"~/../DatabaseInitialData/PublicationData.json";
+                string categoryFilePath = @"Utility/DatabaseInitialData/CategoryData.json";
+                string publicationFilePath = @"Utility/DatabaseInitialData/PublicationData.json";
 
                 if (File.Exists(categoryFilePath))
                 {

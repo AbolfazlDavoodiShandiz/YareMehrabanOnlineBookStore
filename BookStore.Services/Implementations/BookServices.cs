@@ -49,8 +49,8 @@ namespace BookStore.Services.Implementations
                     Author = book.Author,
                     Translator = book.Translator,
                     Edition = book.Edition,
-                    PublishDate = book.PublishDate,
-                    PrintNo = book.PrintNo,
+                    PublishYear = book.PublishYear,
+                    PublishMonth = book.PublishMonth,
                     Pages = book.Pages,
                     Size = book.Size,
                     CoverType = book.CoverType,
@@ -104,10 +104,14 @@ namespace BookStore.Services.Implementations
             {
                 if (bookFilter is null)
                 {
-                    return await _context.Books.OrderBy(b => b.Title).ToListAsync();
+                    return await _context.Books
+                        .Include(b => b.Categories)
+                        .OrderBy(b => b.Title).ToListAsync();
                 }
 
-                var books = _context.Books.AsQueryable();
+                var books = _context.Books
+                    .Include(b => b.Categories)
+                    .AsQueryable();
 
                 books = books.Where(b => (string.IsNullOrWhiteSpace(bookFilter.FilterText)
                 || b.Title.Contains(bookFilter.FilterText)

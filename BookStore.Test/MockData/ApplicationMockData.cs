@@ -1,9 +1,4 @@
 ﻿using BookStore.Entities.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookStore.Test.MockData
 {
@@ -44,8 +39,8 @@ namespace BookStore.Test.MockData
                     Author = string.Empty,
                     Translator = null,
                     Edition = "5",
-                    PublishDate = "May1994",
-                    PrintNo = 12,
+                    PublishMonth = "May",
+                    PublishYear="1994",
                     Pages = 642,
                     Size = "A5",
                     CoverType = "HardCover",
@@ -60,8 +55,8 @@ namespace BookStore.Test.MockData
                     Author = string.Empty,
                     Translator = null,
                     Edition = "5",
-                    PublishDate = "May1994",
-                    PrintNo = 12,
+                    PublishMonth = "May",
+                    PublishYear="1994",
                     Pages = 642,
                     Size = "A5",
                     CoverType = "HardCover",

@@ -9,8 +9,8 @@ namespace BookStore.Entities.Product
         public string Author { get; set; }
         public string Translator { get; set; }
         public string Edition { get; set; }
-        public string PublishDate { get; set; }
-        public int PrintNo { get; set; }
+        public string PublishYear { get; set; }
+        public string PublishMonth { get; set; }
         public int Pages { get; set; }
         public string Size { get; set; }
         public string CoverType { get; set; }
