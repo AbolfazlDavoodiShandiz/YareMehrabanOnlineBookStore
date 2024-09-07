@@ -1,6 +1,7 @@
 ﻿using BookStore.Common.Enums;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
@@ -56,6 +57,16 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 
         public List<CategoryViewModel> Categories
         {
+            set
+            {
+                if (value != null)
+                {
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                    CategoriesString = JsonConvert.SerializeObject(value, settings: settings);
+                }
+            }
             get
             {
                 if (string.IsNullOrWhiteSpace(CategoriesString))

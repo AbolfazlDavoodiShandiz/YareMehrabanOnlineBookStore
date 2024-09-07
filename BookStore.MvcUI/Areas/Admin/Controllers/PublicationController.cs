@@ -2,10 +2,8 @@
 using BookStore.Common.Enums;
 using BookStore.Entities.Product;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
-using BookStore.Services.Implementations;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStore.MvcUI.Areas.Admin.Controllers
 {
@@ -62,6 +60,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdatePublicationViewModel updatePublicationViewModel, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)

@@ -4,11 +4,18 @@ using BookStore.MvcUI.Utility.Extensions;
 using BookStore.Services.Implementations;
 using BookStore.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+    });
 
 builder.Services.Configure<ApplicationSecrets>(c => builder.Configuration.GetSection(nameof(ApplicationSecrets)).Bind(c));
 

@@ -60,16 +60,34 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
         {
-            UpdateBookViewModel updateBookViewModel = new UpdateBookViewModel();
-
             var publicationList = await _publicationServices.GetAll();
 
             ViewBag.PublicationsList = new SelectList(publicationList, "Id", "Name");
 
-            return View(updateBookViewModel);
+            if (productActionType == ProductActionType.Create)
+            {
+                return View(new UpdateBookViewModel { ProductActionType = productActionType });
+            }
+            else if (productActionType == ProductActionType.Update)
+            {
+                var book = await _bookServices.Get(Id.GetValueOrDefault(), cancellationToken);
+
+                if (book is null)
+                {
+                    return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
+                }
+
+                var updateBookViewModel = _mapper.Map<UpdateBookViewModel>(book);
+                return View(updateBookViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Error", "AdminHome", new { area = "Admin" });
+            }
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(CancellationToken cancellationToken, UpdateBookViewModel updateBookViewModel)
         {
             var publicationList = await _publicationServices.GetAll();

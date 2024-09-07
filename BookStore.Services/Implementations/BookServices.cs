@@ -40,42 +40,23 @@ namespace BookStore.Services.Implementations
 
             try
             {
-                var categoryList = _context.Categories.Where(c => book.Categories.Select(cc => cc.Id).ToList().Contains(c.Id));
+                var categoryList = _context.Categories
+                    .Where(c => book.Categories.Select(cc => cc.Id).ToList()
+                    .Contains(c.Id))
+                    .ToList();
 
-                var newBook = new Book()
-                {
-                    Title = book.Title,
-                    ISBN = book.ISBN,
-                    Author = book.Author,
-                    Translator = book.Translator,
-                    Edition = book.Edition,
-                    PublishYear = book.PublishYear,
-                    PublishMonth = book.PublishMonth,
-                    Pages = book.Pages,
-                    Size = book.Size,
-                    CoverType = book.CoverType,
-                    Quantity = book.Quantity,
-                    PublicationId = book.PublicationId,
-                    Categories = new List<Category>(),
-                    Images = new List<BookImage>()
-                };
+                book.Categories.Clear();
 
                 foreach (var category in categoryList)
                 {
-                    newBook.Categories.Add(category);
+                    book.Categories.Add(category);
                 }
 
-                foreach (var image in book.Images)
-                {
-                    image.Book = newBook;
-                    newBook.Images.Add(image);
-                }
-
-                _context.Books.Add(newBook);
+                _context.Books.Add(book);
 
                 await _context.SaveChangesAsync();
 
-                return newBook;
+                return book;
             }
             catch (Exception ex)
             {
@@ -93,9 +74,21 @@ namespace BookStore.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<Book> Get(int Id, CancellationToken cancellationToken = default)
+        public async Task<Book> Get(int Id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = await _context.Books
+                    .Include(b => b.Categories)
+                    .Where(b => b.Id == Id)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                return book;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationDatabaseOperationException(ex);
+            }
         }
 
         public async Task<List<Book>> GetAll(BookFilterDTO bookFilter = null, CancellationToken cancellationToken = default)
@@ -114,16 +107,16 @@ namespace BookStore.Services.Implementations
                     .AsQueryable();
 
                 books = books.Where(b => (string.IsNullOrWhiteSpace(bookFilter.FilterText)
-                || b.Title.Contains(bookFilter.FilterText)
-                || b.Author.Contains(bookFilter.FilterText)
-                || b.Translator.Contains(bookFilter.FilterText)
-                || b.ISBN.Contains(bookFilter.FilterText)
-                || b.Categories.Any(c => c.Name.Contains(bookFilter.FilterText))
-                || b.Publication.Name.Contains(bookFilter.FilterText))
-                && (bookFilter.FilterPublicationId == 0 || b.Publication.Id == bookFilter.FilterPublicationId)
-                && (bookFilter.FilterCategoryId == 0 || b.Categories.Any(c => c.Id == bookFilter.FilterCategoryId)));
+               || b.Title.Contains(bookFilter.FilterText)
+               || b.Author.Contains(bookFilter.FilterText)
+               || b.Translator.Contains(bookFilter.FilterText)
+               || b.ISBN.Contains(bookFilter.FilterText)
+               || b.Categories.Any(c => c.Name.Contains(bookFilter.FilterText))
+               || b.Publication.Name.Contains(bookFilter.FilterText))
+               && (bookFilter.FilterPublicationId == 0 || b.Publication.Id == bookFilter.FilterPublicationId)
+               && (bookFilter.FilterCategoryId == 0 || b.Categories.Any(c => c.Id == bookFilter.FilterCategoryId)));
 
-                return await books.OrderBy(b => b.Title).ToListAsync();
+                return await books.OrderBy(b => b.Title).ToListAsync(cancellationToken);
             }
             catch (Exception ex)
             {

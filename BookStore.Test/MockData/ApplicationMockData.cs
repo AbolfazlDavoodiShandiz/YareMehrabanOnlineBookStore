@@ -37,7 +37,7 @@ namespace BookStore.Test.MockData
                     Title = "Name",
                     ISBN = "1234",
                     Author = string.Empty,
-                    Translator = null,
+                    Translator = string.Empty,
                     Edition = "5",
                     PublishMonth = "May",
                     PublishYear="1994",
@@ -45,7 +45,11 @@ namespace BookStore.Test.MockData
                     Size = "A5",
                     CoverType = "HardCover",
                     IsDeleted = false,
-                    Quantity = 100
+                    Quantity = 100,
+                    Categories = GenerateMockCategories(),
+                    Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } },
+                    Publication=GenerateMockPublications().Single(p=>p.Id==1),
+                    PublicationId = GenerateMockPublications().Single(p=>p.Id==1).Id
                 },
                 new Book()
                 {
@@ -53,7 +57,7 @@ namespace BookStore.Test.MockData
                     Title = "Name",
                     ISBN = "1234",
                     Author = string.Empty,
-                    Translator = null,
+                    Translator = string.Empty,
                     Edition = "5",
                     PublishMonth = "May",
                     PublishYear="1994",
@@ -61,7 +65,11 @@ namespace BookStore.Test.MockData
                     Size = "A5",
                     CoverType = "HardCover",
                     IsDeleted = false,
-                    Quantity = 100
+                    Quantity = 100,
+                    Categories = GenerateMockCategories(),
+                    Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } },
+                    Publication=GenerateMockPublications().Single(p=>p.Id==1),
+                    PublicationId = GenerateMockPublications().Single(p=>p.Id==1).Id
                 }
             };
         }

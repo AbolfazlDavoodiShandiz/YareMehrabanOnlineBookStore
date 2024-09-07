@@ -120,8 +120,8 @@
                                         <div class="col-4">
                                             <fieldset class="form-group">
                                                 <label for="basicInput">دسته بندی</label>
-                                            <input type="hidden" id="CategoriesString" name="CategoriesString" asp-for="CategoriesString" />
-                                            <div id="ms" class="form-control"></div>
+                                                <input type="hidden" id="CategoriesString" name="CategoriesString" asp-for="CategoriesString" />
+                                                <div id="ms" class="form-control"></div>
                                             </fieldset>
                                         </div>
                                         <div class="col-4">
@@ -174,10 +174,28 @@
 
         function makeCategoriesTagInput(categories) {
 
+            const productActionType = $('#ProductActionType').val();
+
+            let initValue = [];
+
+            if (productActionType === 'Update') {
+
+                const categoriesString = $('#CategoriesString').val();
+
+                if (categoriesString !== '' && categoriesString !== undefined){
+                    const categoriesList = JSON.parse(categoriesString);
+
+                    categoriesList.forEach(item => {
+                        initValue.push(item.name);
+                    });
+                }
+            }
+
             let names = categories.map((item) => item.name);
 
             var ms = $('#ms').magicSuggest({
-                data: names
+                data: names,
+                value: initValue
             });
 
             $(ms).on('selectionchange', function (e, t) {

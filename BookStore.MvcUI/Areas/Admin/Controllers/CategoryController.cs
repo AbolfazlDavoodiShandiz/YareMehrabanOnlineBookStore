@@ -66,6 +66,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(UpdateCategoryViewModel updateCategoryViewModel, CancellationToken cancellationToken)
         {
             var categories = await _categoryServices.GetAll(cancellationToken: cancellationToken);
