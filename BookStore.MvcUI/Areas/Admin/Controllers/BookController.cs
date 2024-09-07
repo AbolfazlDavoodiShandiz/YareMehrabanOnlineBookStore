@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BookStore.Common.DTOs.Product;
 using BookStore.Common.Enums;
-using BookStore.Common.FilePaths;
 using BookStore.Entities.Product;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book;
 using BookStore.Services.Interfaces;
@@ -112,39 +111,16 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                     if (!allowedFileExtensions.Contains(Path.GetExtension(Request.Form.Files[i].FileName).Replace(".", "")))
                     {
                         ModelState.AddModelError("AddBookError", "فایل های انتخاب شده غیر مجاز است.");
+
                         return View(updateBookViewModel);
                     }
-
-                    if (!Directory.Exists(ApplicationFilePath.BookPath))
-                    {
-                        Directory.CreateDirectory(ApplicationFilePath.BookPath);
-                    }
-
-                    string extension = Path.GetExtension(Request.Form.Files[i].FileName);
-                    string originalName = Request.Form.Files[i].FileName;
-                    string name = $"{Guid.NewGuid().ToString()}{extension}";
-                    string filePath = $"{ApplicationFilePath.BookPath}/{name}{extension}";
-
-                    using (var stream = System.IO.File.Create(filePath))
-                    {
-                        await Request.Form.Files[i].CopyToAsync(stream);
-                    }
-
-                    BookImageViewModel image = new BookImageViewModel()
-                    {
-                        OriginalName = originalName,
-                        Name = name,
-                        IsMain = i == 0 ? true : false
-                    };
-
-                    updateBookViewModel.Images.Add(image);
                 }
 
                 var newBook = _mapper.Map<Book>(updateBookViewModel);
 
-                var book = await _bookServices.Add(newBook);
+                var book = await _bookServices.Add(newBook, Request.Form.Files, cancellationToken);
 
-                if (book.Id > 0)
+                if (book is not null && book.Id > 0)
                 {
                     return RedirectToAction("List", "Book", new { area = "Admin" });
                 }
@@ -157,7 +133,9 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             }
             else if (updateBookViewModel.ProductActionType == ProductActionType.Update)
             {
+                var book = _mapper.Map<Book>(updateBookViewModel);
 
+                var updatedBook = await _bookServices.Edit(book, Request.Form.Files, cancellationToken);
             }
 
             return RedirectToAction("List", "Book", new { area = "Admin" });
