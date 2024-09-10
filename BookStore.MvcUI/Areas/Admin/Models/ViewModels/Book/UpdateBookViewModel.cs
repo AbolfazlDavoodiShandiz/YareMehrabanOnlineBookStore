@@ -1,7 +1,6 @@
 ﻿using BookStore.Common.Enums;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
@@ -55,26 +54,22 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 
         public ICollection<BookImageViewModel> Images { get; set; } = new List<BookImageViewModel>();
 
+        private List<CategoryViewModel> _categories = new List<CategoryViewModel>();
+
         public List<CategoryViewModel> Categories
         {
+            get
+            {
+                return _categories;
+            }
             set
             {
                 if (value != null)
                 {
-                    JsonSerializerSettings settings = new JsonSerializerSettings();
-                    settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-                    CategoriesString = JsonConvert.SerializeObject(value, settings: settings);
-                }
-            }
-            get
-            {
-                if (string.IsNullOrWhiteSpace(CategoriesString))
-                {
-                    return null;
+                    CategoriesString = string.Join(";", value.Select(x => x.Name).ToArray());
                 }
 
-                return JsonConvert.DeserializeObject<List<CategoryViewModel>>(CategoriesString);
+                _categories = value;
             }
         }
     }

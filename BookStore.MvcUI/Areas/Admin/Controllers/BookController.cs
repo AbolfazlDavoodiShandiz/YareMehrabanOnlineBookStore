@@ -3,6 +3,7 @@ using BookStore.Common.DTOs.Product;
 using BookStore.Common.Enums;
 using BookStore.Entities.Product;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,7 +26,8 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BookListViewModel>>> List(BookListViewModel bookListViewModel)
+        public async Task<ActionResult<List<BookListViewModel>>> List(BookListViewModel bookListViewModel,
+            CancellationToken cancellationToken = default)
         {
             var publicationList = await _publicationServices.GetAll();
 
@@ -57,11 +59,16 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(CancellationToken cancellationToken, ProductActionType productActionType, int? Id = null)
+        public async Task<IActionResult> Update(ProductActionType productActionType, int? Id = null,
+            CancellationToken cancellationToken = default)
         {
             var publicationList = await _publicationServices.GetAll();
 
             ViewBag.PublicationsList = new SelectList(publicationList, "Id", "Name");
+
+            var categories = await _categoryServices.GetAll(null, cancellationToken);
+
+            ViewBag.CategoryList = _mapper.Map<List<CategoryViewModel>>(categories);
 
             if (productActionType == ProductActionType.Create)
             {
@@ -77,6 +84,8 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                 }
 
                 var updateBookViewModel = _mapper.Map<UpdateBookViewModel>(book);
+                updateBookViewModel.ProductActionType = productActionType;
+
                 return View(updateBookViewModel);
             }
             else
@@ -87,15 +96,27 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(CancellationToken cancellationToken, UpdateBookViewModel updateBookViewModel)
+        public async Task<IActionResult> Update(UpdateBookViewModel updateBookViewModel,
+            CancellationToken cancellationToken = default)
         {
             var publicationList = await _publicationServices.GetAll();
 
             ViewBag.PublicationsList = new SelectList(publicationList, "Id", "Name");
 
+            var categories = await _categoryServices.GetAll(null, cancellationToken);
+
+            ViewBag.CategoryList = _mapper.Map<List<CategoryViewModel>>(categories);
+
             if (!ModelState.IsValid)
             {
                 return View(updateBookViewModel);
+            }
+
+            foreach (string categoryName in updateBookViewModel.CategoriesString.Split(";").ToList())
+            {
+                var category = categories.SingleOrDefault(c => c.Name == categoryName);
+
+                updateBookViewModel.Categories.Add(new CategoryViewModel { Id = category.Id, Name = category.Name });
             }
 
             if (updateBookViewModel.ProductActionType == ProductActionType.Create)

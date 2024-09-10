@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="wwwroot\lib\image-loader\" />
   </ItemGroup>
 
   <ItemGroup>
