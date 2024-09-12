@@ -64,7 +64,7 @@ namespace BookStore.Test.ServicesTests
         [Trait("Services", "Book")]
         public async Task Add_Passed_Book_Should_Be_Not_Null()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _services.Add(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _services.Add(null, null));
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book, null));
 
             Assert.Equal("Book title should not be empty.", exception.Message);
         }
@@ -112,7 +112,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book, null));
 
             Assert.Equal("Book ISBN should not be empty.", exception.Message);
         }
@@ -137,7 +137,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Add(book, null));
 
             Assert.Equal("Book author should not be empty.", exception.Message);
         }
@@ -165,7 +165,7 @@ namespace BookStore.Test.ServicesTests
                 Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
-            var result = await _services.Add(book);
+            var result = await _services.Add(book, null);
 
             Assert.True(result.Id > 0);
         }
@@ -191,7 +191,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
 
             Assert.Equal("Book Id is invalid.", exception.Message);
         }
@@ -217,7 +217,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var result = await _services.Edit(book);
+            var result = await _services.Edit(book, null);
 
             Assert.False(result);
         }
@@ -243,7 +243,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var result = await _services.Edit(book);
+            var result = await _services.Edit(book, null);
 
             Assert.True(result);
         }
@@ -269,7 +269,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
 
             Assert.Equal("Book title should not be empty.", exception.Message);
         }
@@ -295,7 +295,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
 
             Assert.Equal("Book ISBN should not be empty.", exception.Message);
         }
@@ -321,7 +321,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
 
             Assert.Equal("Book author should not be empty.", exception.Message);
         }
