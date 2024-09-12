@@ -18,7 +18,7 @@ namespace BookStore.Services.Implementations
             _context = context;
         }
 
-        public async Task<Book> Add(Book book, IFormFileCollection formFiles, CancellationToken cancellationToken = default)
+        public async Task<Book> Add(Book book, List<IFormFile> imageFilesToAdd, CancellationToken cancellationToken = default)
         {
             if (book is null)
             {
@@ -54,7 +54,7 @@ namespace BookStore.Services.Implementations
                     book.Categories.Add(category);
                 }
 
-                bool imagesUploaded = await UploadImages(formFiles, book);
+                bool imagesUploaded = await UploadImages(imageFilesToAdd, book);
 
                 if (!imagesUploaded)
                 {
@@ -73,26 +73,26 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        private async Task<bool> UploadImages(IFormFileCollection formFiles, Book book,
+        private async Task<bool> UploadImages(List<IFormFile> imageFiles, Book book,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                if (!Directory.Exists(ApplicationFilePath.BookPath))
+                if (!Directory.Exists(ApplicationFilePath.Book))
                 {
-                    Directory.CreateDirectory(ApplicationFilePath.BookPath);
+                    Directory.CreateDirectory(ApplicationFilePath.Book);
                 }
 
-                for (int i = 0; i < formFiles.Count; i++)
+                for (int i = 0; i < imageFiles.Count; i++)
                 {
-                    string extension = Path.GetExtension(formFiles[i].FileName);
-                    string originalName = formFiles[i].FileName;
+                    string extension = Path.GetExtension(imageFiles[i].FileName);
+                    string originalName = imageFiles[i].FileName;
                     string name = $"{Guid.NewGuid().ToString()}{extension}";
-                    string filePath = $"{ApplicationFilePath.BookPath}/{name}";
+                    string filePath = $"{ApplicationFilePath.Book}/{name}";
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
-                        await formFiles[i].CopyToAsync(stream, cancellationToken);
+                        await imageFiles[i].CopyToAsync(stream, cancellationToken);
                     }
 
                     BookImage image = new BookImage()
@@ -113,17 +113,19 @@ namespace BookStore.Services.Implementations
             }
         }
 
-        private bool DeleteImages(List<string> imageNames)
+        private bool DeleteImages(List<string> imageNames, Book book)
         {
             try
             {
                 foreach (string imageName in imageNames)
                 {
-                    string filePath = $"{ApplicationFilePath.BookPath}/{imageName}";
+                    string filePath = $"{ApplicationFilePath.Book}/{imageName}";
 
                     if (File.Exists(filePath))
                     {
                         File.Delete(filePath);
+
+                        book.Images.Remove(book.Images.Single(x => x.Name == imageName));
                     }
                 }
 
@@ -140,7 +142,7 @@ namespace BookStore.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Edit(Book book, IFormFileCollection formFiles, CancellationToken cancellationToken = default)
+        public async Task<bool> Edit(Book book, List<IFormFile> imageFilesToAdd, string imageNamesToDelete, CancellationToken cancellationToken = default)
         {
             if (book is null)
             {
@@ -194,15 +196,21 @@ namespace BookStore.Services.Implementations
                 bookToUpdate.PublicationId = book.PublicationId;
                 bookToUpdate.Categories.Clear();
 
-                var imagesToDelete = bookToUpdate.Images.Select(x => x.Name).ToList();
+                bool imageDeleted = false;
 
-                if (imagesToDelete.Count > 0)
+                if (!string.IsNullOrWhiteSpace(imageNamesToDelete))
                 {
-                    DeleteImages(imagesToDelete);
-                    bookToUpdate.Images.Clear();
+                    var imageNamesToDeleteArray = imageNamesToDelete.Split(';').ToList();
+
+                    imageDeleted = DeleteImages(imageNamesToDeleteArray, bookToUpdate);
+
+                    if (!imageDeleted)
+                    {
+                        return false;
+                    }
                 }
 
-                bool imagesUploaded = await UploadImages(formFiles, bookToUpdate);
+                bool imagesUploaded = await UploadImages(imageFilesToAdd, bookToUpdate);
 
                 if (!imagesUploaded)
                 {

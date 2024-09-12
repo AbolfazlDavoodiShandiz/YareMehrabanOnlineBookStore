@@ -367,7 +367,7 @@ function drawRotated(img, degree) {
             });
 
             //image-loader/appendFilesToFileInput.js
-            AppendToFileInput(self.AttachmentArray);
+            AppendToImageFileInput(self.AttachmentArray);
 
             // Instantiate a FileReader object to read its contents into memory
             var fileReader = new FileReader();
@@ -451,7 +451,6 @@ function drawRotated(img, degree) {
 
         // Remove the image from array
         var idx = self.AttachmentArray.map(function (file) { return file.FileName; }).indexOf(id);
-
         if (idx !== -1)
             self.AttachmentArray.splice(idx, 1);
 
@@ -468,6 +467,16 @@ function drawRotated(img, degree) {
         });
 
         self.$progress.fadeOut(options.fadeTime);
+
+        let imageNamesToDeleteValue = $('#imageNamesToDelete').val();
+
+        if (imageNamesToDeleteValue != '') {
+            imageNamesToDeleteValue += ';';
+        }
+
+        imageNamesToDeleteValue += id;
+
+        $('#imageNamesToDelete').val(imageNamesToDeleteValue);
     };
 
     // Button main click
@@ -845,7 +854,6 @@ function drawRotated(img, degree) {
         var element = self.element;
         var $element = $(element);
         var options = self.options;
-
         (function handle(i) {
      
             if (i >= self.imagesToLoad.length)
@@ -857,8 +865,6 @@ function drawRotated(img, degree) {
             var main = (i == 0);
 
             var name = escape(url.substring(url.lastIndexOf('/') + 1));
-            console.log(url);
-            console.log(name);
             var image = new Image();
             image.crossOrigin = "anonymous"; // This enables CORS
             image.onload = function () {

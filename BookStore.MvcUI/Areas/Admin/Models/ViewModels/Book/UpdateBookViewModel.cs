@@ -72,5 +72,7 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
                 _categories = value;
             }
         }
+
+        public string ImageNamesToDelete { get; set; }
     }
 }

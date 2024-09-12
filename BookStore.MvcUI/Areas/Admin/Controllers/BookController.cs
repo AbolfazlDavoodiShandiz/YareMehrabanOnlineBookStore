@@ -119,17 +119,19 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
                 updateBookViewModel.Categories.Add(new CategoryViewModel { Id = category.Id, Name = category.Name });
             }
 
+            List<string> allowedFileExtensions = new List<string>()
+            {
+                "jpg",
+                "png"
+            };
+
             if (updateBookViewModel.ProductActionType == ProductActionType.Create)
             {
-                List<string> allowedFileExtensions = new List<string>()
-                {
-                    "jpg",
-                    "png"
-                };
+                var imageFilesToAdd = Request.Form.Files.Where(x => x.Name == "imageLoaderFileInput").ToList();
 
-                for (int i = 0; i < Request.Form.Files.Count; i++)
+                for (int i = 0; i < imageFilesToAdd.Count; i++)
                 {
-                    if (!allowedFileExtensions.Contains(Path.GetExtension(Request.Form.Files[i].FileName).Replace(".", "")))
+                    if (!allowedFileExtensions.Contains(Path.GetExtension(imageFilesToAdd[i].FileName).Replace(".", "")))
                     {
                         ModelState.AddModelError("AddBookError", "فایل های انتخاب شده غیر مجاز است.");
 
@@ -139,7 +141,7 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
 
                 var newBook = _mapper.Map<Book>(updateBookViewModel);
 
-                var book = await _bookServices.Add(newBook, Request.Form.Files, cancellationToken);
+                var book = await _bookServices.Add(newBook, imageFilesToAdd, cancellationToken);
 
                 if (book is not null && book.Id > 0)
                 {
@@ -154,9 +156,21 @@ namespace BookStore.MvcUI.Areas.Admin.Controllers
             }
             else if (updateBookViewModel.ProductActionType == ProductActionType.Update)
             {
+                var imageFilesToAdd = Request.Form.Files.Where(x => x.Name == "imageLoaderFileInput").ToList();
+
+                for (int i = 0; i < imageFilesToAdd.Count; i++)
+                {
+                    if (!allowedFileExtensions.Contains(Path.GetExtension(imageFilesToAdd[i].FileName).Replace(".", "")))
+                    {
+                        ModelState.AddModelError("AddBookError", "فایل های انتخاب شده غیر مجاز است.");
+
+                        return View(updateBookViewModel);
+                    }
+                }
+
                 var book = _mapper.Map<Book>(updateBookViewModel);
 
-                var updatedBook = await _bookServices.Edit(book, Request.Form.Files, cancellationToken);
+                var updatedBook = await _bookServices.Edit(book, imageFilesToAdd, updateBookViewModel.ImageNamesToDelete, cancellationToken);
             }
 
             return RedirectToAction("List", "Book", new { area = "Admin" });

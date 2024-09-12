@@ -146,7 +146,16 @@
                                             </fieldset>
                                         </div>
                                     </div>
+                                    
                                     <!--Image container -->
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="danger">پس از ویرایش عکس ها روی دکمه ذخیره کلیک کنید.</p>
+                                            <p class="danger">طبق تنظیمات فقط 4 تصویر قابل بارگذاری است.</p>
+                                        </div>
+                                    </div>
+
                                     <div class="row"
                                          data-type="imagesloader"
                                          data-errorformat="Accepted file formats"
@@ -158,6 +167,7 @@
 
                                         <!-- Image file input -->
                                         <input type="file" multiple="multiple" id="imageLoaderFileInput" name="imageLoaderFileInput" style="display:none;" />
+                                        <input type="hidden" id="imageNamesToDelete" name="imageNamesToDelete" asp-for="ImageNamesToDelete"/>
                                         <!-- Progress bar -->
                                         <div class="col-12 order-1 mt-2">
                                             <div data-type="progress" class="progress" style="height: 25px; display:none;">
@@ -224,6 +234,7 @@
                                             <input id="files" type="file" name="files[]" data-button="" multiple="" accept="image/jpeg, image/png, image/gif," style="display:none;">
                                         </div>
                                     </div>
+
                                     <div class="row mt-2">
                                         <div class="col-12">
                                             <button type="submit" class="btn mr-1 btn-success col-12">ذخیره</button>
@@ -273,12 +284,10 @@
                 imagesToLoad = [];
 
                 model.images.forEach(imageItem => {
-                    const imageObject = { "Url": '/../BookImage/'+imageItem.name, "Name": imageItem.originalName }
+                    const imageObject = { "Url": imageItem.url, "Name": imageItem.originalName }
 
                     imagesToLoad.push(imageObject);
                 });
-
-                console.log(imagesToLoad);
             }
 
             // Create image loader plugin
@@ -287,64 +296,7 @@
                 , minSelect: 1
                 , imagesToLoad: imagesToLoad
             });
-
-            // //Form
-            // $frm = $('#frm');
-
-            // // Form submit
-            // $frm.submit(function (e) {
-
-            //     var $form = $(this);
-
-            //     var files = imagesloader.data('format.imagesloader').AttachmentArray;
-
-            //     var il = imagesloader.data('format.imagesloader');
-
-            //     if (il.CheckValidity()) {
-            //         //   alert('Upload ' + files.length + ' files');
-            //         console.log(files);
-            //     }
-
-            //     e.preventDefault();
-            //     e.stopPropagation();
-
-            //     let data = CreateFormData();
-
-            //     $.ajax({
-            //         url: '/admin/book/update',
-            //         type: 'POST',
-            //         processData: false,
-            //         contentType: false,
-            //         data: data
-            //     }).fail(function (e) {
-            //         console.log('fail: ' + e);
-            //     }).done(function (e) {
-            //         console.log('file uploaded: ' + e.id);
-            //     });
-            // });
-
         });
 
-        function CreateFormData() {
-            let form = new FormData();
-
-            form.append("Id", "0");
-            form.append("Title", "aaa");
-            form.append("ISBN", "1234567899874");
-            form.append("Author", "bbb");
-            form.append("Translator", "ccc");
-            form.append("Edition", "ddd");
-            form.append("PublishYear", "1325");
-            form.append("PublishMonth", "fff");
-            form.append("Pages", "51");
-            form.append("Size", "2");
-            form.append("CoverType", "0");
-            form.append("Quantity", "50");
-            form.append("ProductActionType", "Create");
-            form.append("CategoriesString", "C;C++");
-            form.append("PublicationId", "1");
-
-            return form;
-        }
     </script>
 }

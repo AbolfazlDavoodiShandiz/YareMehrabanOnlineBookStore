@@ -8,8 +8,9 @@ namespace BookStore.Services.Interfaces
     {
         Task<List<Book>> GetAll(BookFilterDTO bookFilter = null, CancellationToken cancellationToken = default);
         Task<Book> Get(int Id, CancellationToken cancellationToken = default);
-        Task<Book> Add(Book book, IFormFileCollection formFile, CancellationToken cancellationToken = default);
-        Task<bool> Edit(Book book, IFormFileCollection formFiles, CancellationToken cancellationToken = default);
+        Task<Book> Add(Book book, List<IFormFile> imageFilesToAdd, CancellationToken cancellationToken = default);
+        Task<bool> Edit(Book book, List<IFormFile> imageFilesToAdd, string imageNamesToDelete,
+            CancellationToken cancellationToken = default);
         Task<bool> Delete(int Id, CancellationToken cancellationToken = default);
     }
 }

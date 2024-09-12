@@ -2,6 +2,7 @@
 {
     public static class ApplicationFilePath
     {
-        public const string BookPath = "BookImage/";
+        public const string StaticFileRootFolder = "wwwroot";
+        public const string Book = $"{StaticFileRootFolder}/BookImages/";
     }
 }

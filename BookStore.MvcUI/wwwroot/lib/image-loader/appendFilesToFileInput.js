@@ -1,6 +1,6 @@
-﻿function AppendToFileInput(filesArray) {
+﻿function AppendToImageFileInput(filesArray) {
 
-    const fileInput = document.getElementById('imageLoaderFileInput');
+    const fileInputToAdd = document.getElementById('imageLoaderFileInput');
 
     // Get your file ready
     //const myFileContent = ['My File Content'];
@@ -12,15 +12,15 @@
 
     filesArray.forEach(arrayItem => {
 
-        // Add your file to the file list of the object
-        dataTransfer.items.add(arrayItem.File);
+        if (arrayItem.File != null) {
+            // Add your file to the file list of the object
+            dataTransfer.items.add(arrayItem.File);
+        }
     });
 
     // Save the file list to a new variable
     const fileList = dataTransfer.files;
 
     // Set your input `files` to the file list
-    fileInput.files = fileList;
-
-    console.log(fileList);
+    fileInputToAdd.files = fileList;
 }

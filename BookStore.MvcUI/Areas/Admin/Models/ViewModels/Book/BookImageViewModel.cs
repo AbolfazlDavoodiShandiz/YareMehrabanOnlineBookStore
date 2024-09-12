@@ -12,7 +12,13 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
         {
             get
             {
-                return $"{ApplicationFilePath.BookPath}/{Name}";
+                // add / in start of the path for client side
+                string url = $"/{ApplicationFilePath.Book}/{Name}";
+
+                // for client side remove wwwroot/ from path
+                url = url.Replace($"{ApplicationFilePath.StaticFileRootFolder}/", "");
+
+                return url;
             }
         }
     }
