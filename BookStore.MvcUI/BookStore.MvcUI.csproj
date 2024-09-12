@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Content Remove="Utility\DatabaseInitialData\CategoryData.json" />
+    <Content Remove="wwwroot\lib\image-loader\appendFilesToFileInput.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,8 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\lib\image-loader\appendFilesToFileInput.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="wwwroot\lib\image-loader\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -121,6 +125,7 @@
     <None Include="wwwroot\admin-template\app-assets\vendors\js\typeahead\bloodhound.min.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\typeahead\handlebars.js" />
     <None Include="wwwroot\admin-template\app-assets\vendors\js\typeahead\typeahead.bundle.min.js" />
+    <None Include="wwwroot\lib\image-loader\appendFilesToFileInput.js" />
   </ItemGroup>
 
   <ItemGroup>
