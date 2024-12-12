@@ -1,4 +1,5 @@
-﻿using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
+﻿using BookStore.Common.Utility;
+using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Category;
 using BookStore.MvcUI.Areas.Admin.Models.ViewModels.Publication;
 
 namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
@@ -13,18 +14,20 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
         public string Edition { get; set; }
         public bool IsDeleted { get; set; }
         public int Quantity { get; set; }
-        public string PublishYear { get; set; }
-        public string PublishMonth { get; set; }
+        public int PublishYear { get; set; }
+        public int PublishMonth { get; set; }
+        public string PublishMonthName
+        {
+            get
+            {
+                return DateUtility.GetPersianMonthName(PublishMonth);
+            }
+        }
         public string PublishDate
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(PublishYear) || string.IsNullOrWhiteSpace(PublishMonth))
-                {
-                    return string.Empty;
-                }
-
-                return $"{PublishMonth} {PublishYear}";
+                return $"{PublishMonthName} {PublishYear}";
             }
         }
 

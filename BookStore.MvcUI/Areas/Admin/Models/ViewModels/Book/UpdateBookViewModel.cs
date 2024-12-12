@@ -39,6 +39,7 @@ namespace BookStore.MvcUI.Areas.Admin.Models.ViewModels.Book
 
         [Required(ErrorMessage = "ورود نوع جلد کتاب ضروری است.")]
         public string CoverType { get; set; }
+
         public bool IsDeleted { get; set; }
 
         [Required(ErrorMessage = "ورود عنوان کتاب ضروری است.")]

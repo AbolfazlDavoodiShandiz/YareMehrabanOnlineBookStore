@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240831184832_Init")]
+    [Migration("20241212183943_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -69,11 +69,11 @@ namespace BookStore.Data.Migrations
                     b.Property<int>("PublicationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublishMonth")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PublishMonth")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PublishYear")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PublishYear")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

@@ -76,7 +76,21 @@
                                                 <div class="col-xl-6 col-lg-6 col-md-6 mb-1">
                                                     <fieldset class="form-group">
                                                         <label for="basicInput">ماه انتشار</label>
-                                                        <input type="text" class="form-control" id="PublishMonth" name="PublishMonth" asp-for="PublishMonth">
+                                                        <select class="form-control" id="PublishMonth" name="PublishMonth" asp-for="PublishMonth">
+                                                            <option value="0" selected>انتخاب کنید</option>
+                                                            <option value="1">فروردین</option>
+                                                            <option value="2">اردیبهشت</option>
+                                                            <option value="3">خرداد</option>
+                                                            <option value="4">تیر</option>
+                                                            <option value="5">مرداد</option>
+                                                            <option value="6">شهریور</option>
+                                                            <option value="7">مهر</option>
+                                                            <option value="8">آبان</option>
+                                                            <option value="9">آذر</option>
+                                                            <option value="10">دی</option>
+                                                            <option value="11">بهمن</option>
+                                                            <option value="12">اسفند</option>
+                                                        </select>
                                                     </fieldset>
                                                 </div>
                                             </div>
@@ -146,7 +160,7 @@
                                             </fieldset>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Image container -->
 
                                     <div class="row">
@@ -167,7 +181,7 @@
 
                                         <!-- Image file input -->
                                         <input type="file" multiple="multiple" id="imageLoaderFileInput" name="imageLoaderFileInput" style="display:none;" />
-                                        <input type="hidden" id="imageNamesToDelete" name="imageNamesToDelete" asp-for="ImageNamesToDelete"/>
+                                        <input type="hidden" id="imageNamesToDelete" name="imageNamesToDelete" asp-for="ImageNamesToDelete" />
                                         <!-- Progress bar -->
                                         <div class="col-12 order-1 mt-2">
                                             <div data-type="progress" class="progress" style="height: 25px; display:none;">

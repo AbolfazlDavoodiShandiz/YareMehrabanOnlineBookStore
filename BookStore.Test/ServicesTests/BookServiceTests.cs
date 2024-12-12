@@ -78,8 +78,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -103,8 +103,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -128,8 +128,8 @@ namespace BookStore.Test.ServicesTests
                 Author = string.Empty,
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -154,8 +154,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -182,8 +182,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -191,7 +191,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
 
             Assert.Equal("Book Id is invalid.", exception.Message);
         }
@@ -208,8 +208,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -217,7 +217,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var result = await _services.Edit(book, null);
+            var result = await _services.Edit(book, null, null);
 
             Assert.False(result);
         }
@@ -234,8 +234,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -243,7 +243,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var result = await _services.Edit(book, null);
+            var result = await _services.Edit(book, null, null);
 
             Assert.True(result);
         }
@@ -260,8 +260,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -269,7 +269,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
 
             Assert.Equal("Book title should not be empty.", exception.Message);
         }
@@ -286,8 +286,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -295,7 +295,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
 
             Assert.Equal("Book ISBN should not be empty.", exception.Message);
         }
@@ -312,8 +312,8 @@ namespace BookStore.Test.ServicesTests
                 Author = string.Empty,
                 Translator = null,
                 Edition = "5",
-                PublishMonth = "May",
-                PublishYear = "1994",
+                PublishMonth = 5,
+                PublishYear = 1994,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -321,7 +321,7 @@ namespace BookStore.Test.ServicesTests
                 Quantity = 100
             };
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null));
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
 
             Assert.Equal("Book author should not be empty.", exception.Message);
         }

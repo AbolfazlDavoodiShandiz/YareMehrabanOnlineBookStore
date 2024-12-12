@@ -66,11 +66,11 @@ namespace BookStore.Data.Migrations
                     b.Property<int>("PublicationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PublishMonth")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PublishMonth")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PublishYear")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PublishYear")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
