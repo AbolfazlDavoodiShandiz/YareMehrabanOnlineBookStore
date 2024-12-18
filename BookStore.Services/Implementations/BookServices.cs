@@ -78,31 +78,34 @@ namespace BookStore.Services.Implementations
         {
             try
             {
-                if (!Directory.Exists(ApplicationFilePath.Book))
+                if (imageFiles != null)
                 {
-                    Directory.CreateDirectory(ApplicationFilePath.Book);
-                }
-
-                for (int i = 0; i < imageFiles.Count; i++)
-                {
-                    string extension = Path.GetExtension(imageFiles[i].FileName);
-                    string originalName = imageFiles[i].FileName;
-                    string name = $"{Guid.NewGuid().ToString()}{extension}";
-                    string filePath = $"{ApplicationFilePath.Book}/{name}";
-
-                    using (var stream = System.IO.File.Create(filePath))
+                    if (!Directory.Exists(ApplicationFilePath.Book))
                     {
-                        await imageFiles[i].CopyToAsync(stream, cancellationToken);
+                        Directory.CreateDirectory(ApplicationFilePath.Book);
                     }
 
-                    BookImage image = new BookImage()
+                    for (int i = 0; i < imageFiles.Count; i++)
                     {
-                        OriginalName = originalName,
-                        Name = name,
-                        IsMain = i == 0 ? true : false
-                    };
+                        string extension = Path.GetExtension(imageFiles[i].FileName);
+                        string originalName = imageFiles[i].FileName;
+                        string name = $"{Guid.NewGuid().ToString()}{extension}";
+                        string filePath = $"{ApplicationFilePath.Book}/{name}";
 
-                    book.Images.Add(image);
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            await imageFiles[i].CopyToAsync(stream, cancellationToken);
+                        }
+
+                        BookImage image = new BookImage()
+                        {
+                            OriginalName = originalName,
+                            Name = name,
+                            IsMain = i == 0 ? true : false
+                        };
+
+                        book.Images.Add(image);
+                    }
                 }
 
                 return true;
@@ -290,6 +293,15 @@ namespace BookStore.Services.Implementations
             {
                 throw new ApplicationDatabaseOperationException(ex);
             }
+        }
+
+        public async Task<List<Book>> GetNewPublishedBooks(CancellationToken cancellationToken = default)
+        {
+            List<Book> books = new List<Book>();
+
+
+
+            return books;
         }
     }
 }

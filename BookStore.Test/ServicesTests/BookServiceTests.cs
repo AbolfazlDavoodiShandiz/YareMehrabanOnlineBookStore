@@ -78,8 +78,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -103,8 +103,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -128,8 +128,8 @@ namespace BookStore.Test.ServicesTests
                 Author = string.Empty,
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -154,8 +154,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -182,8 +182,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -208,8 +208,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -234,8 +234,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Author",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -260,8 +260,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -286,8 +286,8 @@ namespace BookStore.Test.ServicesTests
                 Author = "Abolfazl",
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -312,8 +312,8 @@ namespace BookStore.Test.ServicesTests
                 Author = string.Empty,
                 Translator = null,
                 Edition = "5",
-                PublishMonth = 5,
-                PublishYear = 1994,
+                PublishMonth = 6,
+                PublishYear = 1403,
                 Pages = 642,
                 Size = "A5",
                 CoverType = "HardCover",
@@ -351,6 +351,38 @@ namespace BookStore.Test.ServicesTests
             var result = await _services.Delete(1);
 
             Assert.True(result);
+        }
+
+        [Fact]
+        [Trait("Services", "Book")]
+        public async Task GetNewPublishedBooks_Should_Return_List_Of_Type_Book()
+        {
+            var result = await _services.GetNewPublishedBooks();
+
+            Assert.NotNull(result);
+            Assert.IsType<List<Book>>(result);
+        }
+
+        [Fact]
+        [Trait("Services", "Book")]
+        public async Task GetNewPublishedBooks_Should_Return_List_Of_Books_Published_In_CurrentYear_Last6Month()
+        {
+            var result = await _services.GetNewPublishedBooks();
+
+            int year = 2024;
+            int month = 5;
+            bool hasNewBook = false;
+
+            foreach (var book in result)
+            {
+                if (book.PublishYear == 2024 && (month - book.PublishMonth) <= 6)
+                {
+                    hasNewBook = true;
+                }
+            }
+
+            Assert.True(hasNewBook);
+            Assert.IsType<List<Book>>(result);
         }
     }
 }

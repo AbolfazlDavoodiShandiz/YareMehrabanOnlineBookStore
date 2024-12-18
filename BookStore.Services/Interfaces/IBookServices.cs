@@ -12,5 +12,6 @@ namespace BookStore.Services.Interfaces
         Task<bool> Edit(Book book, List<IFormFile> imageFilesToAdd, string imageNamesToDelete,
             CancellationToken cancellationToken = default);
         Task<bool> Delete(int Id, CancellationToken cancellationToken = default);
+        Task<List<Book>> GetNewPublishedBooks(CancellationToken cancellationToken = default);
     }
 }
