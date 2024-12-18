@@ -300,7 +300,6 @@ namespace BookStore.Services.Implementations
             List<Book> books = new List<Book>();
 
 
-
             return books;
         }
     }

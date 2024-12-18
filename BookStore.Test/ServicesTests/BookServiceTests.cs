@@ -188,7 +188,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
@@ -214,7 +216,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var result = await _services.Edit(book, null, null);
@@ -240,7 +244,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var result = await _services.Edit(book, null, null);
@@ -266,7 +272,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
@@ -292,7 +300,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
@@ -318,7 +328,9 @@ namespace BookStore.Test.ServicesTests
                 Size = "A5",
                 CoverType = "HardCover",
                 IsDeleted = false,
-                Quantity = 100
+                Quantity = 100,
+                Categories = new List<Category> { new Category { Id = 1 } },
+                Images = new List<BookImage> { new BookImage { Name = "ImageName", OriginalName = "ImageOriginalName" } }
             };
 
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => _services.Edit(book, null, null));
